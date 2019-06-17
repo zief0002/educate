@@ -8,6 +8,9 @@ License: GNU General Public License
 Encoding: UTF-8
 LazyData: true
 Imports:
+	broom,
 	dplyr,
-	ggplot2
+	ggplot2,
+	tidyr,
+	MASS
 RoxygenNote: 6.1.1
