@@ -23,6 +23,8 @@
 #' @param ...: further parameters passed to the fitting function, in the case of loess, for example, "span = .9", or "family = 'symmetric'"
 #' @description Visually weighted regression / Watercolor plots. Idea: Solomon Hsiang, with additional ideas from many blog commenters
 #' @return A ggplot object giving the watercolor plot
+#' @importFrom plyr .
+#' @importFrom dplyr %>%
 #' @export
 
 # Copyright 2012 Felix Schönbrodt

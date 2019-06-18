@@ -13,6 +13,7 @@
 #' @param emp_dens_color Color of the line for the density plot of the empirical data
 #' @param emp_dens_size Size of the line for the density plot of the empirical data
 #' @return A ggplot object giving the density plot
+#' @importFrom dplyr %>%
 #' @export
 
 watercolor_density = function(data, x, k = 1000, boot_envelope = TRUE, model = "none",
