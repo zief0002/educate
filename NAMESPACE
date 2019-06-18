@@ -2,4 +2,7 @@
 
 export(coef_plot)
 export(sm_density)
+export(watercolor_smoother)
+export(watercolor_density)
 importFrom(dplyr,"%>%")
+importFrom(plyr,".")
