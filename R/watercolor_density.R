@@ -1,21 +1,32 @@
-#' Density plot with Bootstrapped Confidence Envelope
+#' Density Plot with Bootstrapped Confidence Envelope
 #'
-#' This function creates a visually weighted coefficient plot
+#' This function creates an empirical density plot along with options to also include
+#' a visually weighted confidence envelope.
 #'
 #' @param data Dataframe
-#' @param x Column name (unquoted)
-#' @param k Number of bootstrap samples
-#' @param boot_envelope Logical value to indicate whether the bootstrap confidence envelope should be displayed
-#' @param model Character string indicating the type of bootstrapped confidence envelope to display;
+#' @param x A column name in the dataframe. This should be unquoted.
+#' @param k Number of bootstrap samples. The default value is 1000.
+#' @param boot_envelope Logical value to indicate whether the bootstrap confidence envelope should be displayed.
+#'                      The default value is TRUE.
+#' @param model Character string indicating the type of bootstrapped confidence envelope to display.
+#'              Its default value is "none". If it is set to "normal" then a parametric bootstrap
+#'              confidence envelope based on random draws from a normal distribution with ML estimated
+#'              parameters will be generated.
 #' @param rug_color Color for the rug plot
-#' @param envelope_fill Fill color for the bootstrapped confidence envelope
-#' @param alpha Transparency level for the paths that make up the bootstrapped confidence envelope
-#' @param emp_dens_color Color of the line for the density plot of the empirical data
-#' @param emp_dens_size Size of the line for the density plot of the empirical data
-#' @param multicolor Should the confidence enevelope be multicolored or monocolored
-#' @param palette Color palette used if multicolor=TRUE
+#' @param envelope_fill Fill color for the monocolor bootstrapped confidence envelope.
+#' @param alpha Transparency level for the paths that make up the bootstrapped confidence envelope. This may
+#'              need to be adjusted if the argument k= is changed.
+#' @param emp_dens_color Color of the line for the density plot of the empirical data. The default is "black".
+#' @param emp_dens_size Size of the line for the density plot of the empirical data. The default value is 0.5.
+#' @param multicolor Logical value indicating whether the confidence envelope should be multicolored.
+#'                   The default value is FALSE which produces a monocolored envelope.
+#' @param palette Color palette used if \code{multicolor=TRUE}. This defaults to the 9-color YlGnBu palette
+#'                from \link{RColorBrewer}.
+#'
 #' @return A ggplot object giving the density plot
+#'
 #' @importFrom dplyr %>%
+#'
 #' @export
 
 watercolor_density = function(data, x, k = 1000, boot_envelope = TRUE, model = "none",

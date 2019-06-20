@@ -1,28 +1,49 @@
 #' Watercolor Smoother
 #'
-#' This function creates a visually weighted smoother
+#' This function creates a visually regression smoother, also called a Watercolor plot. The initial idea
+#' came from Solomon Hsiang. Felix Schonbrodt provided inital syntax based on Solomon's idea, and
+#' with additional inputfrom many blog commenters. He licensed this with a FreeBSD License (see syntax).
 #'
-#' @param B number bootstrapped smoothers
-#' @param shade plot the shaded confidence region?
-#' @param shade.alpha should the CI shading fade out at the edges? (by reducing alpha; 0 = no alpha decrease, 0.1 = medium alpha decrease, 0.5 = strong alpha decrease)
-#' @param spag plot spaghetti lines?
-#' @param spag.color color of spaghetti lines
-#' @param mweight should the median smoother be visually weighted?
-#' @param show.lm should the linear regresison line be plotted?
-#' @param show.CI should the 95% CI limits be plotted?
-#' @param show.median should the median smoother be plotted?
-#' @param median.col color of the median smoother
-#' @param shape shape of points
+#' @param B Number of bootstrapped smoothers. The default is 1000.
+#' @param shade Logical value indicating whether to plot the shaded confidence region. The default is
+#'              TRUE.
+#' @param shade.alpha Numercial value indicating the degree to which the confidence enevelope shading
+#'                    should fade out at the edges. This reduces the alpha value. (0 = no alpha decrease,
+#'                     0.1 = medium alpha decrease, 0.5 = strong alpha decrease)
+#' @param spag Logical value indicating whether the bootstrapped spaghetti lines should be plotted.
+#'             The default is FALSE.
+#' @param spag.color Color of bootstrapped spaghetti lines.
+#' @param mweight Logical value indicating whether the median smoother should be visually weighted. The
+#'                default is TRUE.
+#' @param show.lm Logical value indicating whether the linear regresison line should be plotted.
+#'                The default is FALSE.
+#' @param show.CI Logical value indicating whether the 95% limits on the parametric confidence
+#'                envelope should be plotted. Default is FALSE.
+#' @param show.median Logical value indicating whether the median smoother should be plotted. The default
+#'                    is TRUE.
+#' @param median.col Color of the median smoother.
+#' @param show.points Logical value indicating whether to plot the observed data. The default
+#'                    is FALSE.
+#' @param shape Shape of points. The default is 21 (open circles). This is only relevant if show.points=TRUE.
 #' @param method the fitting function for the spaghettis; default: loess
-#' @param bw TRUE: define a default b&w-palette
-#' @param slices number of slices in x and y direction for the shaded region. Higher numbers make a smoother plot, but takes longer to draw. I wouldn'T go beyond 500
-#' @param palette provide a custom color palette for the watercolors
-#' @param ylim restrict range of the watercoloring
-#' @param quantize: either "continuous", or "SD". In the latter case, we get three color regions for 1, 2, and 3 SD (an idea of John Mashey)
-#' @param add: if add == FALSE, a new ggplot is returned. If add == TRUE, only the elements are returned, which can be added to an existing ggplot (with the '+' operator)
-#' @param ...: further parameters passed to the fitting function, in the case of loess, for example, "span = .9", or "family = 'symmetric'"
-#' @description Visually weighted regression / Watercolor plots. Idea: Solomon Hsiang, with additional ideas from many blog commenters
+#' @param bw Logical value indicating whether to use a black-and-white palette. The default is FALSE.
+#' @param slices Number of slices in x and y direction for the shaded region. Higher numbers make a
+#'               smoother plot, but takes longer to draw. I would not go beyond 500.
+#' @param palette Color palette for the shading in the confidence envelope. This defaults to the 9-color
+#'                YlGnBu palette from \link{RColorBrewer}.
+#' @param ylim Set y-limit to restrict the range of the watercoloring. The default is NULL.
+#' @param quantize: Character string indicating the type of shading on the confidence envelope. The default
+#'                  is "continuous", which uses a continuous color gradient across the entire range of
+#'                  y. Setting this to "SD" we get three color regions for 1, 2, and 3 SD
+#'                  (an idea of John Mashey)
+#' @param add: Logical value indicating whether to return a new ggplot. The default is FALSE.
+#'             If add = TRUE, only the elements are returned, which can be added to another ggplot
+#'             (with the '+' operator)
+#' @param ...: Further parameters passed to the fitting function, in the case of loess, for example,
+#'             "span = .9", or "family = 'symmetric'"
+#'
 #' @return A ggplot object giving the watercolor plot
+#'
 #' @importFrom plyr .
 #' @importFrom dplyr %>%
 #' @export

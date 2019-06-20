@@ -13,50 +13,68 @@ watercolor_smoother(formula, data, title = "", B = 1000,
   ylim = NULL, quantize = "continuous", add = FALSE, ...)
 }
 \arguments{
-\item{B}{number bootstrapped smoothers}
+\item{B}{Number of bootstrapped smoothers. The default is 1000.}
 
-\item{shade}{plot the shaded confidence region?}
+\item{shade}{Logical value indicating whether to plot the shaded confidence region. The default is
+TRUE.}
 
-\item{shade.alpha}{should the CI shading fade out at the edges? (by reducing alpha; 0 = no alpha decrease, 0.1 = medium alpha decrease, 0.5 = strong alpha decrease)}
+\item{shade.alpha}{Numercial value indicating the degree to which the confidence enevelope shading
+should fade out at the edges. This reduces the alpha value. (0 = no alpha decrease,
+ 0.1 = medium alpha decrease, 0.5 = strong alpha decrease)}
 
-\item{spag}{plot spaghetti lines?}
+\item{spag}{Logical value indicating whether the bootstrapped spaghetti lines should be plotted.
+The default is FALSE.}
 
-\item{spag.color}{color of spaghetti lines}
+\item{spag.color}{Color of bootstrapped spaghetti lines.}
 
-\item{mweight}{should the median smoother be visually weighted?}
+\item{mweight}{Logical value indicating whether the median smoother should be visually weighted. The
+default is TRUE.}
 
-\item{show.lm}{should the linear regresison line be plotted?}
+\item{show.lm}{Logical value indicating whether the linear regresison line should be plotted.
+The default is FALSE.}
 
-\item{show.median}{should the median smoother be plotted?}
+\item{show.median}{Logical value indicating whether the median smoother should be plotted. The default
+is TRUE.}
 
-\item{median.col}{color of the median smoother}
+\item{median.col}{Color of the median smoother.}
 
-\item{shape}{shape of points}
+\item{show.points}{Logical value indicating whether to plot the observed data. The default
+is FALSE.}
 
-\item{show.CI}{should the 95% CI limits be plotted?}
+\item{shape}{Shape of points. The default is 21 (open circles). This is only relevant if show.points=TRUE.}
+
+\item{show.CI}{Logical value indicating whether the 95% limits on the parametric confidence
+envelope should be plotted. Default is FALSE.}
 
 \item{method}{the fitting function for the spaghettis; default: loess}
 
-\item{bw}{TRUE: define a default b&w-palette}
+\item{bw}{Logical value indicating whether to use a black-and-white palette. The default is FALSE.}
 
-\item{slices}{number of slices in x and y direction for the shaded region. Higher numbers make a smoother plot, but takes longer to draw. I wouldn'T go beyond 500}
+\item{slices}{Number of slices in x and y direction for the shaded region. Higher numbers make a
+smoother plot, but takes longer to draw. I would not go beyond 500.}
 
-\item{palette}{provide a custom color palette for the watercolors}
+\item{palette}{Color palette for the shading in the confidence envelope. This defaults to the 9-color
+YlGnBu palette from \link{RColorBrewer}.}
 
-\item{ylim}{restrict range of the watercoloring}
+\item{ylim}{Set y-limit to restrict the range of the watercoloring. The default is NULL.}
 
-\item{quantize:}{either "continuous", or "SD". In the latter case, we get three color regions for 1, 2, and 3 SD (an idea of John Mashey)}
+\item{quantize:}{Character string indicating the type of shading on the confidence envelope. The default
+is "continuous", which uses a continuous color gradient across the entire range of
+y. Setting this to "SD" we get three color regions for 1, 2, and 3 SD
+(an idea of John Mashey)}
 
-\item{add:}{if add == FALSE, a new ggplot is returned. If add == TRUE, only the elements are returned, which can be added to an existing ggplot (with the '+' operator)}
+\item{add:}{Logical value indicating whether to return a new ggplot. The default is FALSE.
+If add = TRUE, only the elements are returned, which can be added to another ggplot
+(with the '+' operator)}
 
-\item{...:}{further parameters passed to the fitting function, in the case of loess, for example, "span = .9", or "family = 'symmetric'"}
+\item{...:}{Further parameters passed to the fitting function, in the case of loess, for example,
+"span = .9", or "family = 'symmetric'"}
 }
 \value{
 A ggplot object giving the watercolor plot
 }
 \description{
-Visually weighted regression / Watercolor plots. Idea: Solomon Hsiang, with additional ideas from many blog commenters
-}
-\details{
-This function creates a visually weighted smoother
+This function creates a visually regression smoother, also called a Watercolor plot. The initial idea
+came from Solomon Hsiang. Felix Schonbrodt provided inital syntax based on Solomon's idea, and
+with additional inputfrom many blog commenters. He licensed this with a FreeBSD License (see syntax).
 }

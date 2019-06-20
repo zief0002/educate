@@ -2,7 +2,7 @@
 % Please edit documentation in R/watercolor_density.R
 \name{watercolor_density}
 \alias{watercolor_density}
-\title{Density plot with Bootstrapped Confidence Envelope}
+\title{Density Plot with Bootstrapped Confidence Envelope}
 \usage{
 watercolor_density(data, x, k = 1000, boot_envelope = TRUE,
   model = "none", rug_color = "black", envelope_fill = "#7FCDBB",
@@ -13,31 +13,39 @@ watercolor_density(data, x, k = 1000, boot_envelope = TRUE,
 \arguments{
 \item{data}{Dataframe}
 
-\item{x}{Column name (unquoted)}
+\item{x}{A column name in the dataframe. This should be unquoted.}
 
-\item{k}{Number of bootstrap samples}
+\item{k}{Number of bootstrap samples. The default value is 1000.}
 
-\item{boot_envelope}{Logical value to indicate whether the bootstrap confidence envelope should be displayed}
+\item{boot_envelope}{Logical value to indicate whether the bootstrap confidence envelope should be displayed.
+The default value is TRUE.}
 
-\item{model}{Character string indicating the type of bootstrapped confidence envelope to display;}
+\item{model}{Character string indicating the type of bootstrapped confidence envelope to display.
+Its default value is "none". If it is set to "normal" then a parametric bootstrap
+confidence envelope based on random draws from a normal distribution with ML estimated
+parameters will be generated.}
 
 \item{rug_color}{Color for the rug plot}
 
-\item{envelope_fill}{Fill color for the bootstrapped confidence envelope}
+\item{envelope_fill}{Fill color for the monocolor bootstrapped confidence envelope.}
 
-\item{alpha}{Transparency level for the paths that make up the bootstrapped confidence envelope}
+\item{alpha}{Transparency level for the paths that make up the bootstrapped confidence envelope. This may
+need to be adjusted if the argument k= is changed.}
 
-\item{emp_dens_color}{Color of the line for the density plot of the empirical data}
+\item{emp_dens_color}{Color of the line for the density plot of the empirical data. The default is "black".}
 
-\item{emp_dens_size}{Size of the line for the density plot of the empirical data}
+\item{emp_dens_size}{Size of the line for the density plot of the empirical data. The default value is 0.5.}
 
-\item{multicolor}{Should the confidence enevelope be multicolored or monocolored}
+\item{multicolor}{Logical value indicating whether the confidence envelope should be multicolored.
+The default value is FALSE which produces a monocolored envelope.}
 
-\item{palette}{Color palette used if multicolor=TRUE}
+\item{palette}{Color palette used if \code{multicolor=TRUE}. This defaults to the 9-color YlGnBu palette
+from \link{RColorBrewer}.}
 }
 \value{
 A ggplot object giving the density plot
 }
 \description{
-This function creates a visually weighted coefficient plot
+This function creates an empirical density plot along with options to also include
+a visually weighted confidence envelope.
 }
