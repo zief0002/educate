@@ -6,7 +6,9 @@
 \usage{
 watercolor_density(data, x, k = 1000, boot_envelope = TRUE,
   model = "none", rug_color = "black", envelope_fill = "#7FCDBB",
-  alpha = 0.03, emp_dens_color = "black", emp_dens_size = 0.5, ...)
+  alpha = 0.03, emp_dens_color = "black", emp_dens_size = 0.5,
+  multicolor = FALSE, palette = RColorBrewer::brewer.pal(9, "YlGnBu"),
+  ...)
 }
 \arguments{
 \item{data}{Dataframe}
@@ -28,6 +30,10 @@ watercolor_density(data, x, k = 1000, boot_envelope = TRUE,
 \item{emp_dens_color}{Color of the line for the density plot of the empirical data}
 
 \item{emp_dens_size}{Size of the line for the density plot of the empirical data}
+
+\item{multicolor}{Should the confidence enevelope be multicolored or monocolored}
+
+\item{palette}{Color palette used if multicolor=TRUE}
 }
 \value{
 A ggplot object giving the density plot

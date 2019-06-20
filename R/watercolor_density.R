@@ -12,13 +12,16 @@
 #' @param alpha Transparency level for the paths that make up the bootstrapped confidence envelope
 #' @param emp_dens_color Color of the line for the density plot of the empirical data
 #' @param emp_dens_size Size of the line for the density plot of the empirical data
+#' @param multicolor Should the confidence enevelope be multicolored or monocolored
+#' @param palette Color palette used if multicolor=TRUE
 #' @return A ggplot object giving the density plot
 #' @importFrom dplyr %>%
 #' @export
 
 watercolor_density = function(data, x, k = 1000, boot_envelope = TRUE, model = "none",
                       rug_color = "black", envelope_fill = "#7FCDBB", alpha = 0.03,
-                      emp_dens_color = "black", emp_dens_size = 0.5, ...){
+                      emp_dens_color = "black", emp_dens_size = 0.5, multicolor = FALSE,
+                      palette = RColorBrewer::brewer.pal(9, "YlGnBu"), ...){
 
   var  = eval(substitute(x), data) # Get variable
   var2 = substitute(.$x)           # Get variable for density()
@@ -31,11 +34,13 @@ watercolor_density = function(data, x, k = 1000, boot_envelope = TRUE, model = "
 
     if(boot_envelope){
 
-      range = max(var, na.rm = TRUE) - min(var, na.rm = TRUE)
-      lower_bound = min(var, na.rm = TRUE) - 0.2 * range
-      upper_bound = max(var, na.rm = TRUE) + 0.2 * range
+      lower_bound = min(var, na.rm = TRUE)
+      upper_bound = max(var, na.rm = TRUE)
 
       # Compute densities of bootstrap samples
+      message("Computing boostrapped smoothers ...")
+      flush.console()
+
       densities_within = data.frame(bs = 1:k) %>%
         dplyr::group_by(bs) %>%
         dplyr::mutate(
@@ -46,26 +51,68 @@ watercolor_density = function(data, x, k = 1000, boot_envelope = TRUE, model = "
         dplyr::do(broom::tidy(density(eval(var2), from = lower_bound, to = upper_bound, n = 128, na.rm = TRUE))) %>%
         dplyr::ungroup()
 
+      # Rename variables
       names(densities_within)[2] = "X"
       names(densities_within)[3] = "dens"
 
-      p = ggplot2::ggplot(data = densities_within, ggplot2::aes(x = X)) +
-        ggplot2::geom_path(ggplot2::aes(group = bs, y = dens), color = envelope_fill, alpha = alpha) +
-        ggplot2::stat_density(data = data, ggplot2::aes(x = var), geom = "line", color = emp_dens_color, size = emp_dens_size) +
-        ggplot2::geom_point(data = data, ggplot2::aes(x = var), y = 0, shape = "|", size = 2, color = rug_color) +
-        ggplot2::xlab(deparse(substitute(x))) +
-        ggplot2::ylab("Probability density") +
-        ggplot2::theme_classic()
+      # Compute limits for conditional densities for better color gradient
+      M = mean(densities_within$dens)
+      SD = sd(densities_within$dens)
+      low_limit = M - 3 * SD
+      upp_limit = M + 3 * SD
+
+      if(multicolor){
+
+        # Get empirical densities
+        my_dens = data.frame(
+          X = density(eval(var), from = min(var, na.rm = TRUE), to = max(var, na.rm = TRUE), n = 128, na.rm = TRUE)$x,
+          emp_dens = density(eval(var), from = min(var, na.rm = TRUE), to = max(var, na.rm = TRUE), n = 128, na.rm = TRUE)$y
+        )
+
+        # Join with empirical density and create color gradient levels
+        densities_within = densities_within %>%
+          dplyr::left_join(my_dens, by = "X") %>%
+          dplyr::filter(dens > low_limit, dens < upp_limit) %>%
+          dplyr::group_by(X) %>%
+          dplyr::mutate(
+            dens.scaled = abs(dens - emp_dens),
+            dens.scaled2 = dens.scaled / (max(dens.scaled) - min(dens.scaled))
+          ) %>%
+          dplyr::ungroup()
+
+        # Create multicolored watercolor density plot
+        p = ggplot2::ggplot(data = densities_within, ggplot2::aes(x = X)) +
+          ggplot2::geom_path(ggplot2::aes(group = bs, y = dens, color = dens.scaled2)) +
+          ggplot2::scale_color_gradientn("dens.scaled", colors = rev(palette)) +
+          ggplot2::scale_alpha_continuous(range = c(0.001, 1)) +
+          ggplot2::stat_density(data = data, ggplot2::aes(x = var), geom = "line", color = emp_dens_color, size = 0.5) +
+          ggplot2::theme_classic() +
+          ggplot2::guides(color = FALSE, alpha = FALSE)
 
       } else{
 
-        # Create plot
-        p = ggplot2::ggplot(data = data, ggplot2::aes(x = var)) +
-          ggplot2::stat_density(geom = "line", color = emp_dens_color, size = emp_dens_size) +
+        # Filter out extremes for better plotting
+        densities_within = densities_within %>%
+          dplyr::filter(dens > low_limit, dens < upp_limit)
+
+        # Create monocolored watercolor density plot
+        p = ggplot2::ggplot(data = densities_within, ggplot2::aes(x = X)) +
+          ggplot2::geom_path(ggplot2::aes(group = bs, y = dens), color = envelope_fill, alpha = alpha) +
+          ggplot2::stat_density(data = data, ggplot2::aes(x = var), geom = "line", color = emp_dens_color, size = emp_dens_size) +
           ggplot2::geom_point(data = data, ggplot2::aes(x = var), y = 0, shape = "|", size = 2, color = rug_color) +
           ggplot2::xlab(deparse(substitute(x))) +
           ggplot2::ylab("Probability density") +
           ggplot2::theme_classic()
+      }
+    } else{
+
+      # Create density plot with no enevelope
+      p = ggplot2::ggplot(data = data, ggplot2::aes(x = var)) +
+        ggplot2::stat_density(geom = "line", color = emp_dens_color, size = emp_dens_size) +
+        ggplot2::geom_point(data = data, ggplot2::aes(x = var), y = 0, shape = "|", size = 2, color = rug_color) +
+        ggplot2::xlab(deparse(substitute(x))) +
+        ggplot2::ylab("Probability density") +
+        ggplot2::theme_classic()
       }
   }
 
@@ -79,6 +126,9 @@ watercolor_density = function(data, x, k = 1000, boot_envelope = TRUE, model = "
     upper_bound = mu_hat + 4 * sigma_hat
 
     # Compute densities of bootstrap samples
+    message("Computing boostrapped smoothers ...")
+    flush.console()
+
     densities_within = data.frame(bs = 1:k) %>%
       dplyr::group_by(bs) %>%
       dplyr::mutate(
@@ -92,15 +142,41 @@ watercolor_density = function(data, x, k = 1000, boot_envelope = TRUE, model = "
     names(densities_within)[2] = "X"
     names(densities_within)[3] = "dens"
 
-    # Create plot
-    p = ggplot2::ggplot(data = densities_within, ggplot2::aes(x = X)) +
-      geom_path(aes(group = bs, y = dens), color = envelope_fill, alpha = alpha) +
-      ggplot2::stat_density(data = data, ggplot2::aes(x = var), geom = "line", color = emp_dens_color, size = emp_dens_size) +
-      ggplot2::geom_point(data = data, ggplot2::aes(x = var), y = 0, shape = "|", size = 2, color = rug_color) +
-      ggplot2::xlab(deparse(substitute(x))) +
-      ggplot2::ylab("Probability density") +
-      ggplot2::theme_classic()
+    if(multicolor){
+
+      densities_within = densities_within %>%
+        dplyr::group_by(X) %>%
+        dplyr::mutate(
+          norm_dens = dnorm(X, mean = mu_hat, sd = sigma_hat),
+          dens.scaled = abs(dens - norm_dens),
+          dens.scaled2 = dens.scaled / (max(dens.scaled) - min(dens.scaled))
+        ) %>%
+        dplyr::ungroup()
+
+      # Create multicolored watercolor normal density plot
+      p = ggplot2::ggplot(data = densities_within, ggplot2::aes(x = X)) +
+        ggplot2::geom_path(ggplot2::aes(group = bs, y = dens, color = dens.scaled2)) +
+        ggplot2::scale_color_gradientn("dens.scaled", colors = rev(palette)) +
+        ggplot2::scale_alpha_continuous(range = c(0.001, 1)) +
+        ggplot2::stat_density(data = data, ggplot2::aes(x = var), geom = "line", color = emp_dens_color, size = 0.5) +
+        ggplot2::theme_classic() +
+        ggplot2::guides(color = FALSE, alpha = FALSE)
+
+
+    } else{
+
+      # Create monocolored watercolor normal density plot
+      p = ggplot2::ggplot(data = densities_within, ggplot2::aes(x = X)) +
+        geom_path(aes(group = bs, y = dens), color = envelope_fill, alpha = alpha) +
+        ggplot2::stat_density(data = data, ggplot2::aes(x = var), geom = "line", color = emp_dens_color, size = emp_dens_size) +
+        ggplot2::geom_point(data = data, ggplot2::aes(x = var), y = 0, shape = "|", size = 2, color = rug_color) +
+        ggplot2::xlab(deparse(substitute(x))) +
+        ggplot2::ylab("Probability density") +
+        ggplot2::theme_classic()
+      }
   }
+  message("Build ggplot figure ...")
+  flush.console()
 
   print(p)
 
