@@ -4,77 +4,42 @@
 \alias{watercolor_smoother}
 \title{Watercolor Smoother}
 \usage{
-watercolor_smoother(formula, data, title = "", B = 1000,
-  shade = TRUE, shade.alpha = 0.1, spag = FALSE,
-  spag.color = "darkblue", mweight = TRUE, show.lm = FALSE,
-  show.median = TRUE, median.col = "white", show.points = FALSE,
-  shape = 21, show.CI = FALSE, method = loess, bw = FALSE,
-  slices = 200, palette = RColorBrewer::brewer.pal(9, "YlGnBu"),
-  ylim = NULL, quantize = "continuous", add = FALSE, ...)
+watercolor_smoother(data, x, y, k = 1000, method = "loess",
+  color = "#1D91C0", alpha = 0.03, emp_line_color = "black",
+  emp_line_size = 0.5, ...)
 }
 \arguments{
-\item{B}{Number of bootstrapped smoothers. The default is 1000.}
+\item{data}{Dataframe}
 
-\item{shade}{Logical value indicating whether to plot the shaded confidence region. The default is
-TRUE.}
+\item{x}{A column name in the dataframe. This should be unquoted.}
 
-\item{shade.alpha}{Numercial value indicating the degree to which the confidence enevelope shading
-should fade out at the edges. This reduces the alpha value. (0 = no alpha decrease,
- 0.1 = medium alpha decrease, 0.5 = strong alpha decrease)}
+\item{y}{A column name in the dataframe. This should be unquoted.}
 
-\item{spag}{Logical value indicating whether the bootstrapped spaghetti lines should be plotted.
-The default is FALSE.}
+\item{k}{Number of bootstrapped smoothers. The default is 1000.}
 
-\item{spag.color}{Color of bootstrapped spaghetti lines.}
+\item{method}{Fitting function for the bootstrapped fitted lines. The default is `method="loess"`.
+The underlying syntax uses `stat_smooth()` so any method that works with that function should work.}
 
-\item{mweight}{Logical value indicating whether the median smoother should be visually weighted. The
-default is TRUE.}
+\item{color}{Color for the bootstrapped fitted lines that make up the confidence envelope. The
+default is `color="#1D91C0"`}
 
-\item{show.lm}{Logical value indicating whether the linear regresison line should be plotted.
-The default is FALSE.}
+\item{alpha}{Transparency level for the paths that make up the bootstrapped fitted lines. This may
+need to be adjusted if the argument `k=` is changed. The default value is `alpha=0.03`.}
 
-\item{show.median}{Logical value indicating whether the median smoother should be plotted. The default
-is TRUE.}
+\item{emp_line_color}{Color of the fitted line for the empirical data.
+The default is `emp_line_color="black"`.}
 
-\item{median.col}{Color of the median smoother.}
-
-\item{show.points}{Logical value indicating whether to plot the observed data. The default
-is FALSE.}
-
-\item{shape}{Shape of points. The default is 21 (open circles). This is only relevant if show.points=TRUE.}
-
-\item{show.CI}{Logical value indicating whether the 95% limits on the parametric confidence
-envelope should be plotted. Default is FALSE.}
-
-\item{method}{the fitting function for the spaghettis; default: loess}
-
-\item{bw}{Logical value indicating whether to use a black-and-white palette. The default is FALSE.}
-
-\item{slices}{Number of slices in x and y direction for the shaded region. Higher numbers make a
-smoother plot, but takes longer to draw. I would not go beyond 500.}
-
-\item{palette}{Color palette for the shading in the confidence envelope. This defaults to the 9-color
-YlGnBu palette from \link{RColorBrewer}.}
-
-\item{ylim}{Set y-limit to restrict the range of the watercoloring. The default is NULL.}
-
-\item{quantize:}{Character string indicating the type of shading on the confidence envelope. The default
-is "continuous", which uses a continuous color gradient across the entire range of
-y. Setting this to "SD" we get three color regions for 1, 2, and 3 SD
-(an idea of John Mashey)}
-
-\item{add:}{Logical value indicating whether to return a new ggplot. The default is FALSE.
-If add = TRUE, only the elements are returned, which can be added to another ggplot
-(with the '+' operator)}
+\item{emp_line_size}{Size of the fitted line for the empirical data. The default value is
+`emp_line_size=0.5`.}
 
 \item{...:}{Further parameters passed to the fitting function, in the case of loess, for example,
 "span = .9", or "family = 'symmetric'"}
 }
 \value{
-A ggplot object giving the watercolor plot
+A ggplot object giving the plot of the bootstrapped fitted lines and the fitted line for
+  the empirical data
 }
 \description{
-This function creates a visually regression smoother, also called a Watercolor plot. The initial idea
-came from Solomon Hsiang. Felix Schonbrodt provided inital syntax based on Solomon's idea, and
-with additional inputfrom many blog commenters. He licensed this with a FreeBSD License (see syntax).
+This function creates a visually regression smoother, also called a watercolor plot. The initial idea
+came from Solomon Hsiang.
 }

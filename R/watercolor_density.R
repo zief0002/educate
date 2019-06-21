@@ -6,22 +6,27 @@
 #' @param data Dataframe
 #' @param x A column name in the dataframe. This should be unquoted.
 #' @param k Number of bootstrap samples. The default value is 1000.
-#' @param boot_envelope Logical value to indicate whether the bootstrap confidence envelope should be displayed.
-#'                      The default value is TRUE.
 #' @param model Character string indicating the type of bootstrapped confidence envelope to display.
-#'              Its default value is "none". If it is set to "normal" then a parametric bootstrap
-#'              confidence envelope based on random draws from a normal distribution with ML estimated
-#'              parameters will be generated.
-#' @param rug_color Color for the rug plot
-#' @param envelope_fill Fill color for the monocolor bootstrapped confidence envelope.
+#'    Its default value is `model="none"`. If `model="normal"` then a parametric bootstrap confidence
+#'    envelope based on random draws from a normal distribution with ML estimated parameters will be
+#'    generated.
+#' @param se_boot Logical value to indicate whether the bootstrapped density paths that make up the
+#'    confidence envelope should be displayed. The default value is `se.boot=TRUE`.
+#' @param color Color for the bootstrapped density paths that make up the confidence envelope. The
+#'     default is `color="#1D91C0"`
 #' @param alpha Transparency level for the paths that make up the bootstrapped confidence envelope. This may
-#'              need to be adjusted if the argument k= is changed.
-#' @param emp_dens_color Color of the line for the density plot of the empirical data. The default is "black".
-#' @param emp_dens_size Size of the line for the density plot of the empirical data. The default value is 0.5.
+#'    need to be adjusted if the argument k= is changed. The default value is `alpha=0.03`.
 #' @param multicolor Logical value indicating whether the confidence envelope should be multicolored.
-#'                   The default value is FALSE which produces a monocolored envelope.
-#' @param palette Color palette used if \code{multicolor=TRUE}. This defaults to the 9-color YlGnBu palette
-#'                from \link{RColorBrewer}.
+#'    The default value is `multicolor=FALSE` which produces a monocolored envelope.
+#' @param palette Color palette used if `multicolor=TRUE`. This defaults to the 9-color YlGnBu palette
+#'    from \link{RColorBrewer}; `palette=RColorBrewer::brewer.pal(9, "YlGnBu")`.
+#' @param rug Logical value indicating whether the empirical observations should be plotted as a rug.
+#'    The default value is `rug=FALSE`.
+#' @param rug_color Color for the rug plot. The default is `rug_color="black"`.
+#' @param emp_dens_color Color of the line for the density plot of the empirical data.
+#'     The default is `emp_dens_color="black"`.
+#' @param emp_dens_size Size of the line for the density plot of the empirical data.
+#'     The default value is `emp_dens_size=0.5`.
 #'
 #' @return A ggplot object giving the density plot
 #'
@@ -29,10 +34,11 @@
 #'
 #' @export
 
-watercolor_density = function(data, x, k = 1000, boot_envelope = TRUE, model = "none",
-                      rug_color = "black", envelope_fill = "#7FCDBB", alpha = 0.03,
-                      emp_dens_color = "black", emp_dens_size = 0.5, multicolor = FALSE,
-                      palette = RColorBrewer::brewer.pal(9, "YlGnBu"), ...){
+watercolor_density = function(data, x, k = 1000, model = "none",
+                      se_boot = TRUE, color = "#1D91C0", alpha = 0.03,
+                      multicolor = FALSE, palette = RColorBrewer::brewer.pal(9, "YlGnBu"),
+                      emp_dens_color = "black", emp_dens_size = 0.5,
+                      rug = FALSE, rug_color = "black", ...){
 
   var  = eval(substitute(x), data) # Get variable
   var2 = substitute(.$x)           # Get variable for density()
@@ -43,7 +49,7 @@ watercolor_density = function(data, x, k = 1000, boot_envelope = TRUE, model = "
 
   if(model == "none"){
 
-    if(boot_envelope){
+    if(se_boot){
 
       lower_bound = min(var, na.rm = TRUE)
       upper_bound = max(var, na.rm = TRUE)
@@ -108,9 +114,8 @@ watercolor_density = function(data, x, k = 1000, boot_envelope = TRUE, model = "
 
         # Create monocolored watercolor density plot
         p = ggplot2::ggplot(data = densities_within, ggplot2::aes(x = X)) +
-          ggplot2::geom_path(ggplot2::aes(group = bs, y = dens), color = envelope_fill, alpha = alpha) +
+          ggplot2::geom_path(ggplot2::aes(group = bs, y = dens), color = color, alpha = alpha) +
           ggplot2::stat_density(data = data, ggplot2::aes(x = var), geom = "line", color = emp_dens_color, size = emp_dens_size) +
-          ggplot2::geom_point(data = data, ggplot2::aes(x = var), y = 0, shape = "|", size = 2, color = rug_color) +
           ggplot2::xlab(deparse(substitute(x))) +
           ggplot2::ylab("Probability density") +
           ggplot2::theme_classic()
@@ -120,13 +125,13 @@ watercolor_density = function(data, x, k = 1000, boot_envelope = TRUE, model = "
       # Create density plot with no enevelope
       p = ggplot2::ggplot(data = data, ggplot2::aes(x = var)) +
         ggplot2::stat_density(geom = "line", color = emp_dens_color, size = emp_dens_size) +
-        ggplot2::geom_point(data = data, ggplot2::aes(x = var), y = 0, shape = "|", size = 2, color = rug_color) +
         ggplot2::xlab(deparse(substitute(x))) +
         ggplot2::ylab("Probability density") +
         ggplot2::theme_classic()
       }
   }
 
+  # Code for generating bootstrap paths from a normal model
   if(model == "normal") {
 
     # Get parameter estimates
@@ -178,9 +183,8 @@ watercolor_density = function(data, x, k = 1000, boot_envelope = TRUE, model = "
 
       # Create monocolored watercolor normal density plot
       p = ggplot2::ggplot(data = densities_within, ggplot2::aes(x = X)) +
-        geom_path(aes(group = bs, y = dens), color = envelope_fill, alpha = alpha) +
+        geom_path(aes(group = bs, y = dens), color = color, alpha = alpha) +
         ggplot2::stat_density(data = data, ggplot2::aes(x = var), geom = "line", color = emp_dens_color, size = emp_dens_size) +
-        ggplot2::geom_point(data = data, ggplot2::aes(x = var), y = 0, shape = "|", size = 2, color = rug_color) +
         ggplot2::xlab(deparse(substitute(x))) +
         ggplot2::ylab("Probability density") +
         ggplot2::theme_classic()
@@ -189,6 +193,11 @@ watercolor_density = function(data, x, k = 1000, boot_envelope = TRUE, model = "
   message("Build ggplot figure ...")
   flush.console()
 
+  if(rug){
+
+    p = p + ggplot2::geom_point(data = data, ggplot2::aes(x = var), y = 0, shape = "|", size = 2, color = rug_color)
+  }
+
   print(p)
 
 }
@@ -196,10 +205,10 @@ watercolor_density = function(data, x, k = 1000, boot_envelope = TRUE, model = "
 # sm_density(keith, homework) + theme_bw() + xlab("Time spent on homework")
 # sm_density(city, gender)
 # sm_density(city, income, boot_envelope = FALSE)
-# sm_density(city, seniority, envelope_fill = "skyblue") + theme_bw()
+# sm_density(city, seniority, color = "skyblue") + theme_bw()
 #
 # sm_density(keith, homework, model = "normal") + theme_bw()
-# sm_density(city, income, model = "normal", envelope_fill = "skyblue", rug_color = "red")
+# sm_density(city, income, model = "normal", color = "skyblue", rug_color = "red")
 
 
 

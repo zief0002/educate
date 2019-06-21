@@ -4,11 +4,11 @@
 \alias{watercolor_density}
 \title{Density Plot with Bootstrapped Confidence Envelope}
 \usage{
-watercolor_density(data, x, k = 1000, boot_envelope = TRUE,
-  model = "none", rug_color = "black", envelope_fill = "#7FCDBB",
-  alpha = 0.03, emp_dens_color = "black", emp_dens_size = 0.5,
-  multicolor = FALSE, palette = RColorBrewer::brewer.pal(9, "YlGnBu"),
-  ...)
+watercolor_density(data, x, k = 1000, model = "none", se_boot = TRUE,
+  color = "#1D91C0", alpha = 0.03, multicolor = FALSE,
+  palette = RColorBrewer::brewer.pal(9, "YlGnBu"),
+  emp_dens_color = "black", emp_dens_size = 0.5, rug = FALSE,
+  rug_color = "black", ...)
 }
 \arguments{
 \item{data}{Dataframe}
@@ -17,30 +17,36 @@ watercolor_density(data, x, k = 1000, boot_envelope = TRUE,
 
 \item{k}{Number of bootstrap samples. The default value is 1000.}
 
-\item{boot_envelope}{Logical value to indicate whether the bootstrap confidence envelope should be displayed.
-The default value is TRUE.}
-
 \item{model}{Character string indicating the type of bootstrapped confidence envelope to display.
-Its default value is "none". If it is set to "normal" then a parametric bootstrap
-confidence envelope based on random draws from a normal distribution with ML estimated
-parameters will be generated.}
+Its default value is `model="none"`. If `model="normal"` then a parametric bootstrap confidence
+envelope based on random draws from a normal distribution with ML estimated parameters will be
+generated.}
 
-\item{rug_color}{Color for the rug plot}
+\item{se_boot}{Logical value to indicate whether the bootstrapped density paths that make up the
+confidence envelope should be displayed. The default value is `se.boot=TRUE`.}
 
-\item{envelope_fill}{Fill color for the monocolor bootstrapped confidence envelope.}
+\item{color}{Color for the bootstrapped density paths that make up the confidence envelope. The
+default is `color="#1D91C0"`}
 
 \item{alpha}{Transparency level for the paths that make up the bootstrapped confidence envelope. This may
-need to be adjusted if the argument k= is changed.}
-
-\item{emp_dens_color}{Color of the line for the density plot of the empirical data. The default is "black".}
-
-\item{emp_dens_size}{Size of the line for the density plot of the empirical data. The default value is 0.5.}
+need to be adjusted if the argument k= is changed. The default value is `alpha=0.03`.}
 
 \item{multicolor}{Logical value indicating whether the confidence envelope should be multicolored.
-The default value is FALSE which produces a monocolored envelope.}
+The default value is `multicolor=FALSE` which produces a monocolored envelope.}
 
-\item{palette}{Color palette used if \code{multicolor=TRUE}. This defaults to the 9-color YlGnBu palette
-from \link{RColorBrewer}.}
+\item{palette}{Color palette used if `multicolor=TRUE`. This defaults to the 9-color YlGnBu palette
+from \link{RColorBrewer}; `palette=RColorBrewer::brewer.pal(9, "YlGnBu")`.}
+
+\item{emp_dens_color}{Color of the line for the density plot of the empirical data.
+The default is `emp_dens_color="black"`.}
+
+\item{emp_dens_size}{Size of the line for the density plot of the empirical data.
+The default value is `emp_dens_size=0.5`.}
+
+\item{rug}{Logical value indicating whether the empirical observations should be plotted as a rug.
+The default value is `rug=FALSE`.}
+
+\item{rug_color}{Color for the rug plot. The default is `rug_color="black"`.}
 }
 \value{
 A ggplot object giving the density plot
