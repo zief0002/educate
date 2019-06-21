@@ -50,11 +50,4 @@ function defined by `method`.}
 This function creates a visually regression smoother, also called a watercolor plot. The initial idea
 came from Solomon Hsiang.
 }
-\section{Aesthetics}{
-
-These stat uses  \link{geom_line()} so support the
-same aesthetics: `alpha`, `colour`, `linetype` and
-`size`.
-}
-
 \keyword{datasets}

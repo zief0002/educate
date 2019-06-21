@@ -45,3 +45,10 @@ default is `color="#1D91C0"`}
 This function creates a visually regression smoother, also called a watercolor plot. The initial idea
 came from Solomon Hsiang.
 }
+\section{Aesthetics}{
+
+These stat uses  `geom_line()` so support the
+same aesthetics: `alpha`, `colour`, `linetype` and
+`size`.
+}
+
