@@ -109,7 +109,7 @@ watercolor_smoother_felix <- function(formula, data, title = "", B = 1000, shade
     palette = colorRampPalette(c("#EEEEEE", "#999999", "#333333"), bias = 2)(20)
   }
 
-  print("Computing boostrapped smoothers ...")
+  message("Computing boostrapped smoothers ...")
   newx = data.frame(seq(min(data[ , IV]), max(data[ , IV]), length = slices))
   colnames(newx) = IV
   l0.boot = matrix(NA, nrow = nrow(newx), ncol = B)
@@ -167,7 +167,7 @@ watercolor_smoother_felix <- function(formula, data, title = "", B = 1000, shade
   if (shade == TRUE) {
     quantize = match.arg(quantize, c("continuous", "SD"))
     if (quantize == "continuous") {
-      print("Computing density estimates for each vertical cut ...")
+      message("Computing density estimates for each vertical cut ...")
       flush.console()
 
       if (is.null(ylim)) {
@@ -183,7 +183,7 @@ watercolor_smoother_felix <- function(formula, data, title = "", B = 1000, shade
         #res = data.frame(density(df$value, na.rm = TRUE, n = slices)[c("x", "y")])
         colnames(res) = c("y", "dens")
         return(res)
-      }, .progress = "text")
+      }, .progress = "none")
 
       maxdens = max(d2$dens)
       mindens = min(d2$dens)
@@ -220,7 +220,7 @@ watercolor_smoother_felix <- function(formula, data, title = "", B = 1000, shade
     }
   }
 
-  print("Build ggplot figure ...")
+  message("Building ggplot figure ...")
   flush.console()
 
 

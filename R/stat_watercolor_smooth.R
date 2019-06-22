@@ -110,13 +110,20 @@ StatWatercolorSmoother <- ggplot2::ggproto("StatWatercolorSmoother", ggplot2::St
 
     if (is.character(method)) method <- match.fun(method)
 
+    # Helper function to compute predicted values
+    helper_func = function(d){
+      base.args <- list(quote(formula), data = quote(d), weights = quote(weight))
+      model <- do.call(method, c(base.args, method.args))
+      predict(model, newdata = d)
+    }
+
 
       # Bootstap
       boot_strap = data.frame(group = 1:k) %>%
         dplyr::group_by(group) %>%
         dplyr::mutate(
           d = list(d1 %>% dplyr::sample_frac(size = 1, replace = TRUE)),
-          yhat = purrr::map(.x = d, .f = ~method(y~x, data = .x, weights = weight)$fitted)
+          yhat = purrr::map(.x = d, .f = ~helper_func(.x))
         ) %>%
         tidyr::unnest()
 
