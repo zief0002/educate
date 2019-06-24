@@ -40,11 +40,11 @@
 
 
 
-StatWatercolorSmoother <- ggplot2::ggproto("StatWatercolorSmoother", ggplot2::Stat,
+StatWatercolorSmoother2 <- ggplot2::ggproto("StatWatercolorSmoother", ggplot2::Stat,
 
       # Required aesthetics
       required_aes = c("x", "y"),
-      default_aes = ggplot2::aes(group = stat(boot_sample)),
+      default_aes = ggplot2::aes(group = stat(boot_sample), color = stat(color), alpha = stat(alpha)),
 
       setup_params = function(data, params) {
         if (identical(params$method, "auto")) {
@@ -74,8 +74,8 @@ StatWatercolorSmoother <- ggplot2::ggproto("StatWatercolorSmoother", ggplot2::St
 
       # Computations
       compute_group = function(data, scales, params, k = 700, formula = y ~ x, method = "auto",
-        n = 80, span = 0.75, fullrange = FALSE, na.rm = FALSE, xseq = NULL, method.args = list(),
-        alpha = 0.06, color = "#1D91C0", ...) {
+        n = 80, span = 0.75, fullrange = FALSE, na.rm = FALSE, xseq = NULL,method.args = list(),
+        ...) {
 
         if (length(unique(data$x)) < 2) {
           # Not enough data to perform fit
@@ -129,13 +129,41 @@ StatWatercolorSmoother <- ggplot2::ggproto("StatWatercolorSmoother", ggplot2::St
             d = list(d1 %>% dplyr::sample_frac(size = 1, replace = TRUE)),
             yhat = purrr::map(.x = d, .f = ~helper_func(.x))
             ) %>%
-          tidyr::unnest()
+          tidyr::unnest() %>%
+          dplyr::ungroup()
+
+        emp_data = data.frame(
+          x = unique(d1$x)
+        )
+
+        base.args <- list(quote(formula), data = quote(data), weights = quote(weight))
+        model <- do.call(method, c(base.args, method.args))
+        emp_data$yhat_emp = predict(model, newdata = emp_data)
+
+        max_y = max(boot_strap$yhat)
+
+        boot_strap = boot_strap %>%
+          dplyr::left_join(emp_data) %>%
+          dplyr::mutate(
+            abs_resid = abs(yhat - yhat_emp)
+          ) %>%
+          dplyr::group_by(x) %>%
+          dplyr::mutate(
+            color = abs_resid / (max(abs_resid)),
+            alpha = color ^ 0.1
+          ) %>%
+          dplyr::ungroup()
+
+
 
         # Output dataframe for use in ggplot layer
         data.frame(
           x = boot_strap$x,
           y = boot_strap$yhat,
-          boot_sample = boot_strap$group
+          boot_sample = boot_strap$group,
+          abs_resid = boot_strap$abs_resid,
+          color = boot_strap$color,
+          alpha = boot_strap$alpha
         )
 
         }
@@ -151,7 +179,7 @@ StatWatercolorSmoother <- ggplot2::ggproto("StatWatercolorSmoother", ggplot2::St
 #' @rdname ggplot2-ggproto
 #' @format NULL
 #' @usage NULL
-#' @inheritParams StatWatercolorSmoother
+#' @inheritParams StatWatercolorSmoother2
 #'
 #' @section Aesthetics:
 #' These stat uses  `geom_line()` so support the
@@ -160,15 +188,15 @@ StatWatercolorSmoother <- ggplot2::ggproto("StatWatercolorSmoother", ggplot2::St
 #'
 #' @importFrom dplyr %>%
 #' @export
-stat_watercolor_smooth <- function(mapping = NULL, data = NULL, geom = "line",
+stat_watercolor_smooth2 <- function(mapping = NULL, data = NULL, geom = "line",
                                    position = "identity", na.rm = FALSE, show.legend = NA,
                                    inherit.aes = TRUE, k = 700, formula = y ~ x, method = "auto",
                                    n = 80, span = 0.75, fullrange = FALSE,
                                    xseq = NULL, method.args = list(),
-                                   alpha = 0.06, color = "#1D91C0",...) {
+                                   ...) {
 
   ggplot2::layer(
-    stat = StatWatercolorSmoother,
+    stat = StatWatercolorSmoother2,
     data = data,
     mapping = mapping,
     geom = geom,
@@ -184,8 +212,15 @@ stat_watercolor_smooth <- function(mapping = NULL, data = NULL, geom = "line",
       fullrange = fullrange,
       method.args = method.args,
       span = span,
-      alpha = alpha,
-      color = color,
       ...)
   )
 }
+
+
+# ggplot(data = keith, aes(x = homework, y = gpa)) +
+#   stat_watercolor_smooth2() +
+#   scale_color_gradientn(stat("abs_resid"), colors = rev(RColorBrewer::brewer.pal(9, "YlGnBu"))) +
+#   theme_classic() +
+#   guides(color = FALSE)
+
+
