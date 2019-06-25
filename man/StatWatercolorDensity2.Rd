@@ -11,9 +11,6 @@ StatWatercolorDensity2
 \arguments{
 \item{k}{Number of bootstrapped smoothers. The default is 1000.}
 
-\item{color}{Color for the bootstrapped fitted lines that make up the confidence envelope. The
-default is `color="#1D91C0"`}
-
 \item{alpha}{Transparency level for the paths that make up the bootstrapped fitted lines. This may
 need to be adjusted if the argument `k=` is changed. The default value is `alpha=0.03`.}
 
