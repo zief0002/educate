@@ -24,3 +24,7 @@ Miscellaneous R functions for educational statistics
 devtools::install_github("zief0002/educate")
 ```
 
+
+## Documentation
+
+View the package documentation at https://zief0002.github.io/educate/
