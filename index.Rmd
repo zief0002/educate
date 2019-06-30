@@ -1,0 +1,38 @@
+---
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# educate <img src="man/figures/logo.png" align="right" alt="" width="200" />
+
+This package is meant to provide helpful functions for data analysis in educational statistics. There are two primary sets of functions currently implemented in the package. These include:
+
+- Functions to create a confidence envelope for kernel density plots
+- Functions to create a confidence envelope for bivariate smoothers (e.g., loess, regression line)
+
+
+The `Articles` tab links to vignettes for each of these implementations.
+
+
+## References and Inspiration
+
+<p style="padding-left: 22px;text-indent: -22px;">
+Hsiang, S. M. (2013, May). *Visually-weighted regression.* Available at SSRN: https://ssrn.com/abstract=2265501 or http://dx.doi.org/10.2139/ssrn.2265501 
+</p>
+
+<p style="padding-left: 22px;text-indent: -22px;">
+Schonbrodt, F. (2012). *Visually weighted regression in R (à la Solomon Hsiang)* [[blog post](https://www.nicebread.de/visually-weighted-regression-in-r-a-la-solomon-hsiang/)]
+</p>
+
+<p style="padding-left: 22px;text-indent: -22px;">
+Wilke, K. (2019). *ungeviz: Tools for visualizing uncertainty with ggplot2.* https://github.com/wilkelab/ungeviz
+</p>
+
+<!-- <p style="padding-left: 22px;text-indent: -22px;"> -->
+<!-- *School* logo in the package logo by David from the Noun Project -->
+<!-- </p> -->
+
+
