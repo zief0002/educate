@@ -1,0 +1,56 @@
+---
+title: "Tidy ANOVA Tables"
+author: "Andrew Zieffler"
+date: "6/30/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The `tidy_anova()` function can be used to create an ANOVA table that is outputted as a data frame. This is useful for implementation with `kable()` and other R functions. The function takes as its input an `lm` object.
+
+```{r}
+# Fit model with lm()
+lm.1 = lm(mpg ~ 1 + wt + hp, data = mtcars)
+
+# Load educate package
+library(educate)
+
+# Obtain ANOVA table
+tidy_anova(lm.1)
+```
+
+## Model-Level Output
+
+The function takes an optional argument of `model=TRUE`. This argument will create the model-level ANOVA table that is commonly presented in APA publications.
+
+```{r}
+# Obtain model-level ANOVA table
+tidy_anova(lm.1, model = TRUE)
+```
+
+
+## Pretty Tables with kable()
+
+Since `tidy_anova()` outputs a data frame, you can use **knitr**'s `kable()` function to make it look great in a knitted document.
+
+```{r message=FALSE, warning=FALSE}
+#Load libraries
+library(dplyr)
+library(knitr)
+
+# Set knitr options to remove NA values
+options(knitr.kable.NA = '')
+
+# Obtain model-level ANOVA table and make it pretty
+tidy_anova(lm.1, model = TRUE) %>%
+  kable(digits = 2)
+```
+
+
+
+
+
+
