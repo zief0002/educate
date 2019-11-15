@@ -67,7 +67,7 @@ StatWatercolorDensity <- ggplot2::ggproto("StatWatercolorDensity", ggplot2::Stat
           yhat = purrr::map(.x = d, .f = ~helper_func(.x))
         ) %>%
         dplyr::select(-d) %>%
-        tidyr::unnest() %>%
+        tidyr::unnest(cols = c(yhat)) %>%
         dplyr::ungroup()
 
     } else{
@@ -88,7 +88,7 @@ StatWatercolorDensity <- ggplot2::ggproto("StatWatercolorDensity", ggplot2::Stat
           yhat = purrr::map(.x = d, .f = ~helper_func(.x))
         ) %>%
         dplyr::select(-d) %>%
-        tidyr::unnest() %>%
+        tidyr::unnest(cols = c(yhat)) %>%
         dplyr::ungroup()
 
       # Compute limits for conditional densities for better color gradient
