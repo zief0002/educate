@@ -4,13 +4,31 @@
 \alias{watercolor_smoother_felix}
 \title{Watercolor Smoother Felix}
 \usage{
-watercolor_smoother_felix(formula, data, title = "", B = 1000,
-  shade = TRUE, shade.alpha = 0.1, spag = FALSE,
-  spag.color = "darkblue", mweight = TRUE, show.lm = FALSE,
-  show.median = TRUE, median.col = "white", show.points = FALSE,
-  shape = 21, show.CI = FALSE, method = loess, bw = FALSE,
-  slices = 200, palette = RColorBrewer::brewer.pal(9, "YlGnBu"),
-  ylim = NULL, quantize = "continuous", add = FALSE, ...)
+watercolor_smoother_felix(
+  formula,
+  data,
+  title = "",
+  B = 1000,
+  shade = TRUE,
+  shade.alpha = 0.1,
+  spag = FALSE,
+  spag.color = "darkblue",
+  mweight = TRUE,
+  show.lm = FALSE,
+  show.median = TRUE,
+  median.col = "white",
+  show.points = FALSE,
+  shape = 21,
+  show.CI = FALSE,
+  method = loess,
+  bw = FALSE,
+  slices = 200,
+  palette = RColorBrewer::brewer.pal(9, "YlGnBu"),
+  ylim = NULL,
+  quantize = "continuous",
+  add = FALSE,
+  ...
+)
 }
 \arguments{
 \item{B}{Number of bootstrapped smoothers. The default is 1000.}

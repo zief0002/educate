@@ -1,6 +1,6 @@
 Package: educate
 Title: Miscellaneous R Functions for Educational Statistics
-Version: 0.0.1.0000
+Version: 0.0.1.1
 Authors@R: person("Andrew", "Zieffler", email = "zief0002@umn.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-1035-0341"))
 Description: These are miscellaneous functions for carrying out statistical work in education.
 Depends: R (>= 3.5.2)
@@ -17,4 +17,4 @@ Imports:
 	purrr,
 	RColorBrewer,
 	reshape2
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.0

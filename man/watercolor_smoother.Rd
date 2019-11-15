@@ -4,9 +4,18 @@
 \alias{watercolor_smoother}
 \title{Watercolor Smoother}
 \usage{
-watercolor_smoother(data, x, y, k = 1000, method = "loess",
-  color = "#1D91C0", alpha = 0.03, emp_line_color = "black",
-  emp_line_size = 0.5, ...)
+watercolor_smoother(
+  data,
+  x,
+  y,
+  k = 1000,
+  method = "loess",
+  color = "#1D91C0",
+  alpha = 0.03,
+  emp_line_color = "black",
+  emp_line_size = 0.5,
+  ...
+)
 }
 \arguments{
 \item{data}{Dataframe}

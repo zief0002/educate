@@ -87,7 +87,7 @@ sm_density = function(data, x, k = 1000, boot_envelope = TRUE, model = "none",
       dplyr::mutate(
         data = list(rnorm(n, mu_hat, sigma_hat))
       ) %>%
-      tidyr::unnest() %>%
+      tidyr::unnest(cols = c(data)) %>%
       dplyr::group_by(bs) %>%
       dplyr::do(broom::tidy(density(.$data, from = lower_bound, to = upper_bound, n = 128, na.rm = TRUE))) %>%
       dplyr::ungroup()

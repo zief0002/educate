@@ -4,8 +4,16 @@
 \alias{sm_density}
 \title{Density plot with Bootstrapped Confidence Envelope}
 \usage{
-sm_density(data, x, k = 1000, boot_envelope = TRUE, model = "none",
-  rug_color = "black", envelope_fill = "skyblue", ...)
+sm_density(
+  data,
+  x,
+  k = 1000,
+  boot_envelope = TRUE,
+  model = "none",
+  rug_color = "black",
+  envelope_fill = "skyblue",
+  ...
+)
 }
 \arguments{
 \item{data}{Dataframe}

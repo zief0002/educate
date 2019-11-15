@@ -4,11 +4,22 @@
 \alias{watercolor_density}
 \title{Density Plot with Bootstrapped Confidence Envelope}
 \usage{
-watercolor_density(data, x, k = 1000, model = "none", se_boot = TRUE,
-  color = "#1D91C0", alpha = 0.03, multicolor = FALSE,
+watercolor_density(
+  data,
+  x,
+  k = 1000,
+  model = "none",
+  se_boot = TRUE,
+  color = "#1D91C0",
+  alpha = 0.03,
+  multicolor = FALSE,
   palette = RColorBrewer::brewer.pal(9, "YlGnBu"),
-  emp_dens_color = "black", emp_dens_size = 0.5, rug = FALSE,
-  rug_color = "black", ...)
+  emp_dens_color = "black",
+  emp_dens_size = 0.5,
+  rug = FALSE,
+  rug_color = "black",
+  ...
+)
 }
 \arguments{
 \item{data}{Dataframe}

@@ -17,24 +17,27 @@ tidy_anova = function(x, model = FALSE){
   if(model == TRUE){
     k = length(av$Df)
 
+    # Set up columns for source, df, and sums of squares
     ret <- data.frame(
       Source = c("Model", "Residuals"),
       df = c(sum(av$Df[-k]), av$Df[k]),
       SS = c(sum(av$'Sum Sq'[-k]), av$'Sum Sq'[k]),
       stringsAsFactors = FALSE
-    ) %>%
-      mutate(
-      MS = SS / df
-      )
+    )
 
+    # Add column for squares
+    ret$MS = ret$SS / ret$df
+
+    # Compute F- and p-value
     f.value = ret$MS[1] / ret$MS[2]
     p.value = 1- pf(f.value, df1 = ret$df[1], df2 = ret$df[2])
 
-    ret = ret %>%
-      mutate(
-      F = c(f.value, NA),
-      p = c(p.value, NA)
-    )
+    # Add column for F-statistic
+    ret$F = c(f.value, NA)
+
+    # Add column for p-value
+    ret$p = c(p.value, NA)
+
   } else{
 
   # Term-level partitioning
