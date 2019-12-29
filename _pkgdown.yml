@@ -21,14 +21,11 @@ reference:
   desc: ~
   contents:
   - '`StatWatercolorDensity`'
-  - '`StatWatercolorDensity2`'
   - '`StatWatercolorSmoother`'
-  - '`StatWatercolorSmoother2`'
   - '`coef_plot`'
   - '`education`'
   - '`stat_watercolor_density`'
-  - '`sm_density`'
+  - '`stat_watercolor_smooth`'
   - '`watercolor_density`'
   - '`watercolor_smoother`'
-  - '`watercolor_smoother_felix`'
 

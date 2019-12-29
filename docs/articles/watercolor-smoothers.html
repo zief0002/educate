@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">educate</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.0</span>
       </span>
     </div>
 
@@ -61,6 +61,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/tidy-anova.html">Tidy ANOVA Tables</a>
+    </li>
+    <li>
       <a href="../articles/watercolor-density.html">Watercolor Density Plots</a>
     </li>
     <li>
@@ -102,7 +105,7 @@
 <li><code><a href="../reference/ggplot2-ggproto.html">stat_watercolor_smooth()</a></code></li>
 <li>
 <code><a href="../reference/watercolor_smoother.html">watercolor_smoother()</a></code>,</li>
-<li><code><a href="../reference/watercolor_smoother_felix.html">watercolor_smoother_felix()</a></code></li>
+<li><code>watercolor_smoother_felix()</code></li>
 </ul>
 <p>The <code><a href="../reference/ggplot2-ggproto.html">stat_watercolor_smooth()</a></code> function can be used as a layer directly in ggplot, while the other two functions are stand-alone functions that create ggplot objects (no ggplot syntax required). Below I illustrate the usage and functionality of each of these functions.</p>
 <div id="stat_watercolor_smooth" class="section level3">
@@ -135,17 +138,12 @@
 <p>Essentially the same plot can be obtained using the <code><a href="../reference/watercolor_smoother.html">watercolor_smoother()</a></code> function which is not embedded as a ggplot layer. The difference is the default number of bootstrap samples is <code>k=1,000</code> (rather than <code>k=700</code>) and the default alpha level is <code>alpha=0.03</code> (rather than <code>alpha=0.06</code>).</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/watercolor_smoother.html">watercolor_smoother</a></span>(<span class="dt">data =</span> education, <span class="dt">x =</span> salary, <span class="dt">y =</span> sat, <span class="dt">method =</span> <span class="st">"lm"</span>)</a></code></pre></div>
 <p><img src="figs/wc-smoother-example-03.png" width="60%" style="display: block; margin: auto;"></p>
-</div>
-<div id="watercolor_smoother_felix" class="section level3">
-<h3 class="hasAnchor">
-<a href="#watercolor_smoother_felix" class="anchor"></a>watercolor_smoother_felix()</h3>
-<p>This function implements code written by <a href="https://www.nicebread.de/visually-weighted-watercolor-plots-new-variants-please-vote/">Felix Schonbrodt</a> and also allows for a multicolor palette to be used rather than a moncolor palette. While this is pretty, it may not be any more interpretive than the monocolored palette. (Note: This functionality is not currently implemented in <code><a href="../reference/ggplot2-ggproto.html">stat_watercolor_density()</a></code> nor <code><a href="../reference/watercolor_smoother.html">watercolor_smoother()</a></code>.)</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/watercolor_smoother_felix.html">watercolor_smoother_felix</a></span>(<span class="dt">formula =</span> sat<span class="op">~</span>salary, <span class="dt">data =</span> education, <span class="dt">show.points =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<p><img src="figs/wc-smoother-example-04.png" width="60%" style="display: block; margin: auto;"></p>
+<p>```</p>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
       </div>
 
 </div>
@@ -157,7 +155,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

@@ -65,14 +65,5 @@ watercolor_smoother(data = education, x = salary, y = sat, method = "lm")
 knitr::include_graphics("figs/wc-smoother-example-03.png")
 ```
 
-### watercolor_smoother_felix()
 
-This function implements code written by [Felix Schonbrodt ](https://www.nicebread.de/visually-weighted-watercolor-plots-new-variants-please-vote/) and also allows for a multicolor palette to be used rather than a moncolor palette. While this is pretty, it may not be any more interpretive than the monocolored palette. (Note: This functionality is not currently implemented in `stat_watercolor_density()` nor `watercolor_smoother()`.)
-
-```{r eval=FALSE}
-watercolor_smoother_felix(formula = sat~salary, data = education, show.points = TRUE)
-```
-
-```{r echo=FALSE, out.width='60%', fig.align='center'}
-knitr::include_graphics("figs/wc-smoother-example-04.png")
 ```
