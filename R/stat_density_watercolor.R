@@ -45,16 +45,11 @@ StatDensityWatercolor <- ggplot2::ggproto("StatWatercolorDensity", ggplot2::Stat
     if(model == "normal") {
 
       # Get parameter estimates
-      mu_hat = mean(data$x, na.rm = TRUE) #MASS::fitdistr(na.omit(data$x), "normal")$estimate[[1]]
-      sigma_hat = sd(data$x, na.rm = TRUE) #MASS::fitdistr(na.omit(data$x), "normal")$estimate[[2]]
+      mu_hat = mean(data$x, na.rm = TRUE)
+      sigma_hat = sd(data$x, na.rm = TRUE)
       n = length(data$x)
 
-      # Function to compute densities
-      helper_func = function(d){
-        broom::tidy(density(d, from = lower_bound, to = upper_bound, n = 128, na.rm = TRUE))
-      }
-
-      # Print message
+     # Print message
       message("Boostrapping densities ...")
       flush.console()
 
