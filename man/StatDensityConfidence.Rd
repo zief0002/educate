@@ -3,8 +3,10 @@
 \docType{data}
 \name{StatDensityConfidence}
 \alias{StatDensityConfidence}
-\title{Density with Confidence Envelope}
-\format{An object of class \code{StatDensityConfidence} (inherits from \code{Stat}, \code{ggproto}, \code{gg}) of length 4.}
+\title{Normal Theory Based Confidence Envelope for Density}
+\format{
+An object of class \code{StatDensityConfidence} (inherits from \code{Stat}, \code{ggproto}, \code{gg}) of length 4.
+}
 \usage{
 StatDensityConfidence
 }
@@ -14,12 +16,8 @@ omitted, a normal optimal smoothing parameter is used.}
 
 \item{fill}{Fill color for the confidence envelope. The default is `color="skyblue"`}
 
-\item{fade}{Should the confidence enevelope have more transparency for values farther from the
-empirical density? The default is `fade=FALSE`.}
-
-\item{model}{The model to bootstrap from. The default is `model="none"` which bootstraps from the data.
-Using `model="normal"` draws repeated samples from a normal distribution with parameters based on the
-ML estimates from the data.}
+\item{model}{The model to draw the confidence envelope for. The default is `model="none"` which creates the confidence envelope
+from the data. Using `model="normal"` creates the confidence envelope based on a normal distribution.}
 }
 \description{
 This function creates a normal theory based confidence envelope for the empirical density.

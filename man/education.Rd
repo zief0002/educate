@@ -4,7 +4,8 @@
 \name{education}
 \alias{education}
 \title{State Level Education Data}
-\format{A data frame with six variables:
+\format{
+A data frame with six variables:
 \describe{
   \item{\code{state}}{State name}
   \item{\code{postal}}{Two-letter state postal code}
@@ -12,7 +13,8 @@
   \item{\code{salary}}{Average teacher salary in the state}
   \item{\code{sat}}{Average SAT score in the state}
   \item{\code{participation}}{Percentage of students in the state who took the SAT}
-}}
+}
+}
 \usage{
 data(education)
 }

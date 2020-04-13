@@ -1,4 +1,4 @@
-#' Watercolor Bootstrapped Density
+#' Bootstrapped Confidence Envelope for Density
 #'
 #' This function creates a confidence envelope for the empirical density by bootstrapping from the data.
 #' Transparency is used to indicate the level of uncertainty.
@@ -13,13 +13,11 @@
 #'     Using `model="normal"` draws repeated samples from a normal distribution with parameters based on the
 #'     ML estimates from the data.
 #'
-#' @importFrom dplyr %>%
-#'
 #' @export
 
 
 
-StatWatercolorDensity <- ggplot2::ggproto("StatWatercolorDensity", ggplot2::Stat,
+StatDensityWatercolor <- ggplot2::ggproto("StatWatercolorDensity", ggplot2::Stat,
 
   # Required aesthetics
   required_aes = c("x"),
@@ -47,8 +45,8 @@ StatWatercolorDensity <- ggplot2::ggproto("StatWatercolorDensity", ggplot2::Stat
     if(model == "normal") {
 
       # Get parameter estimates
-      mu_hat = MASS::fitdistr(na.omit(data$x), "normal")$estimate[[1]]
-      sigma_hat = MASS::fitdistr(na.omit(data$x), "normal")$estimate[[2]]
+      mu_hat = mean(data$x, na.rm = TRUE) #MASS::fitdistr(na.omit(data$x), "normal")$estimate[[1]]
+      sigma_hat = sd(data$x, na.rm = TRUE) #MASS::fitdistr(na.omit(data$x), "normal")$estimate[[2]]
       n = length(data$x)
 
       # Function to compute densities
@@ -56,40 +54,50 @@ StatWatercolorDensity <- ggplot2::ggproto("StatWatercolorDensity", ggplot2::Stat
         broom::tidy(density(d, from = lower_bound, to = upper_bound, n = 128, na.rm = TRUE))
       }
 
-      # Compute densities of bootstrap samples
-      message("Computing boostrapped smoothers ...")
+      # Print message
+      message("Boostrapping densities ...")
       flush.console()
 
-      densities_within = data.frame(group = 1:k) %>%
-        dplyr::group_by(group) %>%
-        dplyr::mutate(
-          d = list(rnorm(n, mu_hat, sigma_hat)),
-          yhat = purrr::map(.x = d, .f = ~helper_func(.x))
-        ) %>%
-        dplyr::select(-d) %>%
-        tidyr::unnest(cols = c(yhat)) %>%
-        dplyr::ungroup()
+      # Set up empty list
+      temp = vector(mode = "list", length = k)
+
+      # Bootstrap densities
+      for(i in 1:k){
+        boot_x = rnorm(n, mu_hat, sigma_hat)
+        d = density(boot_x, from = lower_bound, to = upper_bound, n = 128, na.rm = TRUE)
+        temp[[i]] = data.frame(
+          x = d$x,
+          y = d$y,
+          group = i
+        )
+      }
+
+      # Combine list into dataframe
+      densities_within = do.call(rbind, temp)
 
     } else{
 
-      # Function to compute densities
-      helper_func = function(d){
-        broom::tidy(density(d$x, from = lower_bound, to = upper_bound, n = 128, na.rm = TRUE))
-        }
-
-      # Bootstap
-      message("Computing boostrapped smoothers ...")
+      # Print message
+      message("Boostrapping densities ...")
       flush.console()
 
-      densities_within = data.frame(group = 1:k) %>%
-        dplyr::group_by(group) %>%
-        dplyr::mutate(
-          d = list(d1 %>% dplyr::sample_frac(size = 1, replace = TRUE)),
-          yhat = purrr::map(.x = d, .f = ~helper_func(.x))
-        ) %>%
-        dplyr::select(-d) %>%
-        tidyr::unnest(cols = c(yhat)) %>%
-        dplyr::ungroup()
+      # Create empty list
+      temp = vector(mode = "list", length = k)
+
+      # Bootsrap densities
+      for(i in 1:k){
+        boot_x = sample(d1$x, replace = TRUE)
+        d = density(boot_x, from = lower_bound, to = upper_bound, n = 128, na.rm = TRUE)
+        temp[[i]] = data.frame(
+          x = d$x,
+          y = d$y,
+          group = i
+        )
+      }
+
+      # Combine list into data frame
+      densities_within = do.call(rbind, temp)
+
 
       # Compute limits for conditional densities for better color gradient
       M = mean(densities_within$y)
@@ -98,8 +106,8 @@ StatWatercolorDensity <- ggplot2::ggproto("StatWatercolorDensity", ggplot2::Stat
       upp_limit = M + 3 * SD
 
       # Filter out extremes for better coloring
-      densities_within = densities_within %>%
-        dplyr::filter(y > low_limit, y < upp_limit)
+      densities_within = densities_within[densities_within$y > low_limit & densities_within$y < upp_limit, ]
+
     }
 
     # Output data for plotting
@@ -123,7 +131,7 @@ StatWatercolorDensity <- ggplot2::ggproto("StatWatercolorDensity", ggplot2::Stat
 #' @rdname ggplot2-ggproto
 #' @format NULL
 #' @usage NULL
-#' @inheritParams StatWatercolorDensity
+#' @inheritParams StatDensityWatercolor
 #'
 #' @section Aesthetics:
 #' These stat uses  `geom_line()` so support the
@@ -132,14 +140,14 @@ StatWatercolorDensity <- ggplot2::ggproto("StatWatercolorDensity", ggplot2::Stat
 #'
 #' @importFrom dplyr %>%
 #' @export
-stat_watercolor_density <- function(mapping = NULL, data = NULL, geom = "line",
+stat_density_watercolor <- function(mapping = NULL, data = NULL, geom = "line",
                                    position = "identity", na.rm = TRUE,
                                    inherit.aes = TRUE, k = 1000,
                                    alpha = 0.03, color = "#1D91C0",
                                    model = "none", ...) {
 
     ggplot2::layer(
-      stat = StatWatercolorDensity,
+      stat = StatDensityWatercolor,
       data = data,
       mapping = mapping,
       geom = geom,
