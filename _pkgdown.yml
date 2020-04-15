@@ -17,15 +17,16 @@ navbar:
       href: reference/index.html
 
 reference:
-- title: All functions
-  desc: ~
+- title: Functions for use
+  desc: These are the functions that are useful for analysis
   contents:
-  - '`StatWatercolorDensity`'
-  - '`StatWatercolorSmoother`'
-  - '`coef_plot`'
-  - '`education`'
-  - '`stat_watercolor_density`'
-  - '`stat_watercolor_smooth`'
-  - '`watercolor_density`'
-  - '`watercolor_smoother`'
+  - '`stat_density_confidence`'
+  - '`stat_density_watercolor`'
+  - '`tidy_anova`'
+- title: Helper Functions
+  desc: Internal functions and helpers
+  contents:
+  - '`StatDensityConfidence`'
+  - '`StatDensityWatercolor`'
+
 

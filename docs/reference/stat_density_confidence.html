@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • educate</title>
+<title>Normal Theory Based Confidence Envelope for Density — stat_density_confidence • educate</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,7 +42,9 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Normal Theory Based Confidence Envelope for Density — stat_density_confidence" />
+<meta property="og:description" content="This function creates a normal theory based confidence enevelope for the empirical density. The idea came from
+functions written by Bowman and Azzalini." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -63,7 +65,7 @@
   </head>
 
   <body>
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -125,47 +127,52 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
-      
+    <h1>Normal Theory Based Confidence Envelope for Density</h1>
+    
+    <div class="hidden name"><code>stat_density_confidence.Rd</code></div>
     </div>
 
-    <div id="educate-0102" class="section level1">
-<h1 class="page-header">
-<a href="#educate-0102" class="anchor"></a>educate 0.1.0.2</h1>
-<div id="2019-june" class="section level2">
-<h2 class="hasAnchor">
-<a href="#2019-june" class="anchor"></a>2019, June</h2>
-<ul>
-<li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
-<li>Added package documentation via pkgdown</li>
-</ul>
-</div>
-<div id="2020-january" class="section level2">
-<h2 class="hasAnchor">
-<a href="#2020-january" class="anchor"></a>2020, January</h2>
-<ul>
-<li>Added <code><a href="../reference/tidy_anova.html">tidy_anova()</a></code> function</li>
-</ul>
-</div>
-<div id="2020-april" class="section level2">
-<h2 class="hasAnchor">
-<a href="#2020-april" class="anchor"></a>2020, April</h2>
-<ul>
-<li>Re-wrote functions in base R to reduce dependencies</li>
-</ul>
-</div>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>This function creates a normal theory based confidence enevelope for the empirical density. The idea came from
+functions written by Bowman and Azzalini.</p>
+    </div>
 
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>h</th>
+      <td><p>A normal kernel function is used and <code>h</code> is its standard deviation. If this parameter is
+omitted, a normal optimal smoothing parameter is used.</p></td>
+    </tr>
+    <tr>
+      <th>fill</th>
+      <td><p>Fill color for the confidence envelope. The default is <code>fill="skyblue"</code></p></td>
+    </tr>
+    <tr>
+      <th>model</th>
+      <td><p>The model to draw the confidence envelope for. The default is <code>model="none"</code> which creates the
+confidence envelope from the data. Using <code>model="normal"</code> creates the confidence envelope based on a normal distribution.</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="aesthetics"><a class="anchor" href="#aesthetics"></a>Aesthetics</h2>
+
+    
+
+<p>These stat uses  <code>geom_ribbon()</code> so support the same aesthetics: <code>alpha</code>, <code>colour</code>, <code>fill</code>,
+<code>linetype</code>, <code>group</code>, and <code>size</code>.</p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#educate-0102">0.1.0.2</a></li>
-      </ul>
-    </div>
-  </div>
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#aesthetics">Aesthetics</a></li>
+    </ul>
 
+  </div>
 </div>
 
 

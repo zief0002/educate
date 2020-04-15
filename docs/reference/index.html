@@ -76,7 +76,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">educate</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.2</span>
       </span>
     </div>
 
@@ -99,13 +99,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/confidence-envelopes-for-densities.html">Confidence Envelopes for Density Plots</a>
+    </li>
+    <li>
       <a href="../articles/tidy-anova.html">Tidy ANOVA Tables</a>
-    </li>
-    <li>
-      <a href="../articles/watercolor-density.html">Watercolor Density Plots</a>
-    </li>
-    <li>
-      <a href="../articles/watercolor-smoothers.html">Watercolor Smoothers</a>
     </li>
   </ul>
 </li>
@@ -142,52 +139,48 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
+          <h2 id="section-functions-for-use" class="hasAnchor"><a href="#section-functions-for-use" class="anchor"></a>Functions for use</h2>
+          <p class="section-desc"><p>These are the functions that are useful for analysis</p></p>
         </th>
       </tr>
       <tr>
         
         <td>
-          <p><code><a href="StatWatercolorDensity.html">StatWatercolorDensity</a></code> </p>
+          <p><code><a href="stat_density_confidence.html">stat_density_confidence</a></code> </p>
         </td>
-        <td><p>Watercolor Bootstrapped Density</p></td>
+        <td><p>Normal Theory Based Confidence Envelope for Density</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="StatWatercolorSmoother.html">StatWatercolorSmoother</a></code> </p>
+          <p><code><a href="stat_density_watercolor.html">stat_density_watercolor</a></code> </p>
         </td>
-        <td><p>Watercolor Bootstrapped Smoother</p></td>
+        <td><p>Bootstrapped Confidence Envelope for Density</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="coef_plot.html">coef_plot()</a></code> </p>
+          <p><code><a href="tidy_anova.html">tidy_anova()</a></code> </p>
         </td>
-        <td><p>Visually Weighted Coefficient Plot</p></td>
+        <td><p>Tidy a(n) ANOVA table</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-helper-functions" class="hasAnchor"><a href="#section-helper-functions" class="anchor"></a>Helper Functions</h2>
+          <p class="section-desc"><p>Internal functions and helpers</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="StatDensityConfidence.html">StatDensityConfidence</a></code> </p>
+        </td>
+        <td><p>Normal Theory Based Confidence Envelope for Density Helper Function</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="education.html">education</a></code> </p>
+          <p><code><a href="StatDensityWatercolor.html">StatDensityWatercolor</a></code> </p>
         </td>
-        <td><p>State Level Education Data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ggplot2-ggproto.html">stat_watercolor_density</a></code> </p>
-        </td>
-        <td><p>Stat Method for Watercolor Bootstrapped Smoother</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="watercolor_density.html">watercolor_density()</a></code> </p>
-        </td>
-        <td><p>Density Plot with Bootstrapped Confidence Envelope</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="watercolor_smoother.html">watercolor_smoother()</a></code> </p>
-        </td>
-        <td><p>Watercolor Smoother</p></td>
+        <td><p>Bootstrapped Confidence Envelope for Density Helper Function</p></td>
       </tr>
     </tbody>
     </table>
@@ -196,7 +189,8 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#section-functions-for-use">Functions for use</a></li>
+      <li><a href="#section-helper-functions">Helper Functions</a></li>
     </ul>
   </div>
 </div>

@@ -2,7 +2,6 @@ pandoc: '2.5'
 pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
+  confidence-envelopes-for-densities: confidence-envelopes-for-densities.html
   tidy-anova: tidy-anova.html
-  watercolor-density: watercolor-density.html
-  watercolor-smoothers: watercolor-smoothers.html
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Stat Method for Watercolor Bootstrapped Smoother — stat_watercolor_density • educate</title>
+<title>Normal Theory Based Confidence Envelope for Density — stat_density_confidence • educate</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,11 +42,11 @@
 
 
 
-<meta property="og:title" content="Stat Method for Watercolor Bootstrapped Smoother — stat_watercolor_density" />
-<meta property="og:description" content="This function creates a visually regression smoother, also called a watercolor plot. The initial idea
-came from Solomon Hsiang.
-This function creates a visually regression smoother, also called a watercolor plot. The initial idea
-came from Solomon Hsiang." />
+<meta property="og:title" content="Normal Theory Based Confidence Envelope for Density — stat_density_confidence" />
+<meta property="og:description" content="This function creates a normal theory based confidence enevelope for the empirical density. The idea came from
+functions written by Bowman and Azzalini.
+This function creates a confidence envelope for the empirical density by bootstrapping from the data.
+Transparency is used to indicate the level of uncertainty." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -80,7 +80,7 @@ came from Solomon Hsiang." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">educate</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.2</span>
       </span>
     </div>
 
@@ -103,13 +103,10 @@ came from Solomon Hsiang." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/density-confidence-watercolor.html">Confidence Envelopes for Density Plots</a>
+    </li>
+    <li>
       <a href="../articles/tidy-anova.html">Tidy ANOVA Tables</a>
-    </li>
-    <li>
-      <a href="../articles/watercolor-density.html">Watercolor Density Plots</a>
-    </li>
-    <li>
-      <a href="../articles/watercolor-smoothers.html">Watercolor Smoothers</a>
     </li>
   </ul>
 </li>
@@ -132,16 +129,16 @@ came from Solomon Hsiang." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Stat Method for Watercolor Bootstrapped Smoother</h1>
+    <h1>Normal Theory Based Confidence Envelope for Density</h1>
     
     <div class="hidden name"><code>ggplot2-ggproto.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function creates a visually regression smoother, also called a watercolor plot. The initial idea
-came from Solomon Hsiang.</p>
-<p>This function creates a visually regression smoother, also called a watercolor plot. The initial idea
-came from Solomon Hsiang.</p>
+    <p>This function creates a normal theory based confidence enevelope for the empirical density. The idea came from
+functions written by Bowman and Azzalini.</p>
+<p>This function creates a confidence envelope for the empirical density by bootstrapping from the data.
+Transparency is used to indicate the level of uncertainty.</p>
     </div>
 
 
@@ -149,63 +146,32 @@ came from Solomon Hsiang.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>h</th>
+      <td><p>A normal kernel function is used and <code>h</code> is its standard deviation. If this parameter is
+omitted, a normal optimal smoothing parameter is used.</p></td>
+    </tr>
+    <tr>
+      <th>fill</th>
+      <td><p>Fill color for the confidence envelope. The default is <code>fill="skyblue"</code></p></td>
+    </tr>
+    <tr>
+      <th>model</th>
+      <td><p>The model to draw the confidence envelope for. The default is <code>model="none"</code> which creates the
+confidence envelope from the data. Using <code>model="normal"</code> creates the confidence envelope based on a normal distribution.</p></td>
+    </tr>
+    <tr>
       <th>k</th>
       <td><p>Number of bootstrapped smoothers. The default is 1000.</p></td>
     </tr>
     <tr>
       <th>alpha</th>
       <td><p>Transparency level for the paths that make up the bootstrapped fitted lines. This may
-need to be adjusted if the argument `k=` is changed. The default value is `alpha=0.03`.</p></td>
+need to be adjusted if the argument <code>k=</code> is changed. The default value is <code>alpha=0.03</code>.</p></td>
     </tr>
     <tr>
       <th>color</th>
-      <td><p>Color for the bootstrapped fitted lines that make up the confidence envelope. The
-default is `color="#1D91C0"`</p></td>
-    </tr>
-    <tr>
-      <th>model</th>
-      <td><p>The model to bootstrap from. The default is `model="none"` which bootstraps from the data.
-Using `model="normal"` draws repeated samples from a normal distribution with parameters based on the
-ML estimates from the data.</p></td>
-    </tr>
-    <tr>
-      <th>formula</th>
-      <td><p>Formula to use in smoothing function. The default is `formula = y ~ x`,</p></td>
-    </tr>
-    <tr>
-      <th>method</th>
-      <td><p>Smoothing method (function) to use, accepts either a character vector,
-  e.g. `"auto"`, `"lm"`, `"glm"`, `"gam"`, `"loess"` or a function, e.g.
-  `MASS::rlm` or `mgcv::gam`, `stats::lm`, or `stats::loess`.</p>
-<p>For `method = "auto"` the smoothing method is chosen based on the
-  size of the largest group (across all panels). [stats::loess()] is
-  used for less than 1,000 observations; otherwise [mgcv::gam()] is
-  used with `formula = y ~ s(x, bs = "cs")`. Somewhat anecdotally,
-  `loess` gives a better appearance, but is \(O(N^{2})\) in memory,
-  so does not work for larger datasets.</p>
-<p>If you have fewer than 1,000 observations but want to use the same `gam()`
-  model that `method = "auto"` would use, then set
-  `method = "gam", formula = y ~ s(x, bs = "cs")`.</p></td>
-    </tr>
-    <tr>
-      <th>n</th>
-      <td><p>Number of points at which to evaluate smoother.</p></td>
-    </tr>
-    <tr>
-      <th>span</th>
-      <td><p>Controls the amount of smoothing for the default loess smoother.
-Smaller numbers produce wigglier lines, larger numbers produce smoother
-lines.</p></td>
-    </tr>
-    <tr>
-      <th>fullrange</th>
-      <td><p>Should the fit span the full range of the plot, or just
-the data? The default is `fullrange=FALSE`.</p></td>
-    </tr>
-    <tr>
-      <th>method.args</th>
-      <td><p>List of additional arguments passed on to the modelling
-function defined by `method`.</p></td>
+      <td><p>Color for the bootstrapped densities that make up the confidence envelope. The
+default is <code>color="#1D91C0"</code></p></td>
     </tr>
     </table>
 
@@ -213,13 +179,8 @@ function defined by `method`.</p></td>
 
     
 
-<p>These stat uses  `geom_line()` so support the
-same aesthetics: `alpha`, `colour`, `linetype` and
-`size`.</p>
-
-<p>These stat uses  `geom_line()` so support the
-same aesthetics: `alpha`, `colour`, `linetype` and
-`size`.</p>
+<p>These stat uses  <code>geom_ribbon()</code> so support the same aesthetics: <code>alpha</code>, <code>colour</code>,
+<code>linetype</code> and <code>size</code>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
