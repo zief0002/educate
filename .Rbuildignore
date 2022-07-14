@@ -1,2 +1,10 @@
 ^educate\.Rproj$
 ^\.Rproj\.user$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^README.Rmd$
+^extras$
+^index.Rmd
+^doc$
+^Meta$

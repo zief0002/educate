@@ -3,6 +3,21 @@
 \name{stat_density_confidence}
 \alias{stat_density_confidence}
 \title{Normal Theory Based Confidence Envelope for Density}
+\usage{
+stat_density_confidence(
+  mapping = NULL,
+  data = NULL,
+  geom = "ribbon",
+  position = "identity",
+  na.rm = TRUE,
+  inherit.aes = TRUE,
+  h = NULL,
+  fill = "skyblue",
+  fade = FALSE,
+  model = "none",
+  ...
+)
+}
 \arguments{
 \item{h}{A normal kernel function is used and \code{h} is its standard deviation. If this parameter is
 omitted, a normal optimal smoothing parameter is used.}
@@ -13,7 +28,7 @@ omitted, a normal optimal smoothing parameter is used.}
 confidence envelope from the data. Using \code{model="normal"} creates the confidence envelope based on a normal distribution.}
 }
 \description{
-This function creates a normal theory based confidence enevelope for the empirical density. The idea came from
+This function creates a normal theory based confidence envelope for the empirical density. The idea came from
 functions written by Bowman and Azzalini.
 }
 \section{Aesthetics}{

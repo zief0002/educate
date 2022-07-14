@@ -3,7 +3,6 @@
 #' This function creates a confidence envelope for the empirical density by bootstrapping from the data.
 #' Transparency is used to indicate the level of uncertainty.
 #'
-#' @inheritParams ggplot2::stat_identity
 #' @param k Number of bootstrapped smoothers. The default is 1000.
 #' @param color Color for the bootstrapped densities that make up the confidence envelope. The
 #'     default is `color="#1D91C0"`
@@ -12,8 +11,10 @@
 #' @param model The model to bootstrap from. The default is `model="none"` which bootstraps from the data.
 #'     Using `model="normal"` draws repeated samples from a normal distribution with parameters based on the data.
 #'
+#' @usage NULL
+#'
 #' @export
-StatDensityWatercolor <- ggplot2::ggproto("StatWatercolorDensity", ggplot2::Stat,
+StatDensityWatercolor <- ggplot2::ggproto("StatDensityWatercolor", ggplot2::Stat,
 
 # Required aesthetics
 required_aes = c("x"),

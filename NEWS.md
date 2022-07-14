@@ -1,3 +1,12 @@
+# educate 0.2.0.1
+
+
+## 2022, July
+
+* Added `stat_residual_confidence()` function.
+
+
+
 # educate 0.1.0.2
 
 
@@ -14,3 +23,5 @@
 ## 2020, April
 
 * Re-wrote functions in base R to reduce dependencies
+
+

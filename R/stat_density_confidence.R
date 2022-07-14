@@ -1,11 +1,10 @@
 
 #' Normal Theory Based Confidence Envelope for Density
 #'
-#' This function creates a normal theory based confidence enevelope for the empirical density. The idea came from
+#' This function creates a normal theory based confidence envelope for the empirical density. The idea came from
 #' functions written by Bowman and Azzalini.
 #'
 #' @format NULL
-#' @usage NULL
 #' @inheritParams StatDensityConfidence
 #'
 #' @section Aesthetics:
@@ -36,5 +35,6 @@ stat_density_confidence <- function(mapping = NULL, data = NULL, geom = "ribbon"
         ...)
   )
 }
+
 
 

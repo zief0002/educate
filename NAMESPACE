@@ -2,6 +2,10 @@
 
 export(StatDensityConfidence)
 export(StatDensityWatercolor)
+export(StatResidualConfidence)
 export(stat_density_confidence)
 export(stat_density_watercolor)
+export(stat_residual_confidence)
 export(tidy_anova)
+importFrom(stats,anova)
+importFrom(stats,pf)

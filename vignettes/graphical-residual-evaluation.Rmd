@@ -1,0 +1,53 @@
+---
+title: "Graphical Evaluation of Residuals"
+author: "Andrew Zieffler"
+date: "7/14/2022"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Graphical Evaluation of Residuals}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The **educate** package includes the `stat_residual_confidence()` function to generate confidence envelopes for the average residual conditional on a fitted value. This function  can be used as a layer directly in ggplot. Below I illustrate the usage and functionality of each of this function.
+
+### stat_density_confidence()
+
+```{r out.width='60%', fig.align='center'}
+# Load libraries
+library(broom)
+library(ggplot2)
+library(educate)
+
+# Fit a linear model
+lm.1 = lm(speed ~ dist, data = cars)
+
+# Confidence envelope for average raw residual of 0
+augment(lm.1, se_fit = TRUE) |>
+  ggplot(aes(x = .fitted, y = .resid)) +
+  stat_residual_confidence(model = lm.1, type = "raw") +
+  geom_point() +
+  geom_smooth(se = FALSE)
+
+# Confidence envelope for average standardized residual of 0
+augment(lm.1, se_fit = TRUE) |>
+  ggplot(aes(x = .fitted, y = .std.resid)) +
+  stat_residual_confidence(model = lm.1, type = "standardized") +
+  geom_point() +
+  geom_smooth(se = FALSE)
+```
+
+You need to provide the fitted model object in the `model=` argument. You also need to provide the residual type (raw or standardized) using the `type=` argument.
+
+
+Useful optional parameters to the function include:
+
+- `fill=`: Fill color for the confidence envelope. The default is `fill="skyblue"`
+- `alpha=`: The level of transparency. The default is `alpha=0.3`
+
+
+

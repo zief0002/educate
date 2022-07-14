@@ -2,7 +2,6 @@
 #'
 #' This function creates a normal theory based confidence envelope for the empirical density.
 #'
-#' @inheritParams ggplot2::stat_identity
 #' @param h A normal kernel function is used and `h` is its standard deviation. If this parameter is
 #'     omitted, a normal optimal smoothing parameter is used.
 #' @param fill Fill color for the confidence envelope. The default is `fill="skyblue"`

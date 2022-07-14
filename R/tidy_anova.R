@@ -9,6 +9,8 @@
 #' @examples
 #' lm.1 = lm(mpg ~ 1 + hp + wt, data = mtcars)
 #' tidy_anova(lm.1, model = TRUE)
+#'
+#' @importFrom stats anova pf
 tidy_anova = function(x, model = FALSE){
   co <- stats::coef(x)
   av = anova(x)

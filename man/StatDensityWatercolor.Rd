@@ -5,10 +5,7 @@
 \alias{StatDensityWatercolor}
 \title{Bootstrapped Confidence Envelope for Density Helper Function}
 \format{
-An object of class \code{StatWatercolorDensity} (inherits from \code{Stat}, \code{ggproto}, \code{gg}) of length 4.
-}
-\usage{
-StatDensityWatercolor
+An object of class \code{StatDensityWatercolor} (inherits from \code{Stat}, \code{ggproto}, \code{gg}) of length 4.
 }
 \arguments{
 \item{k}{Number of bootstrapped smoothers. The default is 1000.}

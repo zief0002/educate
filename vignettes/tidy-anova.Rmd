@@ -2,7 +2,11 @@
 title: "Tidy ANOVA Tables"
 author: "Andrew Zieffler"
 date: "6/30/2019"
-output: html_document
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Tidy ANOVA Tables}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
