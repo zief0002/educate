@@ -1,7 +1,10 @@
-# educate 0.2.0.1
+# educate 0.3.0.1 (2023, January)
+
+* Added `residual_plots()` function.
+* Removed `stat_residual_confidence()` function.
 
 
-## 2022, July
+# educate 0.2.0.1 (2022, July)
 
 * Added `stat_residual_confidence()` function.
 
@@ -13,7 +16,7 @@
 ## 2019, June
 
 * Added a `NEWS.md` file to track changes to the package.
-* Added package documentation via pkgdown
+* Added package documentation via `{pkgdown}`
 
 ## 2020, January
 
