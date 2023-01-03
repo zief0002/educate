@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">educate</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.0.1</span>
       </span>
     </div>
 
@@ -101,12 +101,11 @@ Zieffler</h4>
     
     
 <p>The <strong>educate</strong> package includes the
-<code><a href="../reference/stat_residual_confidence.html">stat_residual_confidence()</a></code> function to generate confidence
-envelopes for the average residual conditional on a fitted value. This
-function can be used as a layer directly in ggplot. Below I illustrate
-the usage and functionality of each of this function.</p>
+<code><a href="../reference/residual_plots.html">residual_plots()</a></code> function to generate plots of the
+standardized residuals along with confidence envelopes to help evaluate
+model assumptions. Below I illustrate the usage of this function.</p>
 <div class="section level3">
-<h3 id="stat_density_confidence">stat_density_confidence()<a class="anchor" aria-label="anchor" href="#stat_density_confidence"></a>
+<h3 id="evaluate-normality">Evaluate Normality<a class="anchor" aria-label="anchor" href="#evaluate-normality"></a>
 </h3>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load libraries</span></span>
@@ -117,37 +116,61 @@ the usage and functionality of each of this function.</p>
 <span><span class="co"># Fit a linear model</span></span>
 <span><span class="va">lm.1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">speed</span> <span class="op">~</span> <span class="va">dist</span>, data <span class="op">=</span> <span class="va">cars</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Confidence envelope for average raw residual of 0</span></span>
-<span><span class="fu"><a href="https://generics.r-lib.org/reference/augment.html" class="external-link">augment</a></span><span class="op">(</span><span class="va">lm.1</span>, se_fit <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">.fitted</span>, y <span class="op">=</span> <span class="va">.resid</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/stat_residual_confidence.html">stat_residual_confidence</a></span><span class="op">(</span>model <span class="op">=</span> <span class="va">lm.1</span>, type <span class="op">=</span> <span class="st">"raw"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">geom_smooth</a></span><span class="op">(</span>se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## `geom_smooth()` using method = 'loess' and formula 'y ~ x'</span></span></code></pre>
+<span><span class="co"># Density plot</span></span>
+<span><span class="fu"><a href="../reference/residual_plots.html">residual_plots</a></span><span class="op">(</span><span class="va">lm.1</span>, type <span class="op">=</span> <span class="st">"d"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="graphical-residual-evaluation_files/figure-html/unnamed-chunk-1-1.png" width="60%" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Confidence envelope for average standardized residual of 0</span></span>
-<span><span class="fu"><a href="https://generics.r-lib.org/reference/augment.html" class="external-link">augment</a></span><span class="op">(</span><span class="va">lm.1</span>, se_fit <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">.fitted</span>, y <span class="op">=</span> <span class="va">.std.resid</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/stat_residual_confidence.html">stat_residual_confidence</a></span><span class="op">(</span>model <span class="op">=</span> <span class="va">lm.1</span>, type <span class="op">=</span> <span class="st">"standardized"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">geom_smooth</a></span><span class="op">(</span>se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## `geom_smooth()` using method = 'loess' and formula 'y ~ x'</span></span></code></pre>
-<p><img src="graphical-residual-evaluation_files/figure-html/unnamed-chunk-1-2.png" width="60%" style="display: block; margin: auto;"></p>
-<p>You need to provide the fitted model object in the
-<code>model=</code> argument. You also need to provide the residual type
-(raw or standardized) using the <code>type=</code> argument.</p>
-<p>Useful optional parameters to the function include:</p>
-<ul>
-<li>
-<code>fill=</code>: Fill color for the confidence envelope. The
-default is <code>fill="skyblue"</code>
-</li>
-<li>
-<code>alpha=</code>: The level of transparency. The default is
-<code>alpha=0.3</code>
-</li>
-</ul>
+<p>You need to provide the fitted model object (in the
+<code>model=</code> argument; typically unnamed). You also need to
+provide the plot type using the <code>type=</code> argument. Here we use
+<code>type="d"</code> to obtain the density plot of the standardized
+residuals.</p>
+</div>
+<div class="section level3">
+<h3 id="evaluate-linearity-and-homoskedasticity">Evaluate Linearity and Homoskedasticity<a class="anchor" aria-label="anchor" href="#evaluate-linearity-and-homoskedasticity"></a>
+</h3>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Load libraries</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://broom.tidymodels.org/" class="external-link">broom</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">educate</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Fit a linear model</span></span>
+<span><span class="va">lm.1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">speed</span> <span class="op">~</span> <span class="va">dist</span>, data <span class="op">=</span> <span class="va">cars</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Density plot</span></span>
+<span><span class="fu"><a href="../reference/residual_plots.html">residual_plots</a></span><span class="op">(</span><span class="va">lm.1</span>, type <span class="op">=</span> <span class="st">"s"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## `geom_smooth()` using formula = 'y ~ x'</span></span>
+<span><span class="co">## `geom_smooth()` using formula = 'y ~ x'</span></span></code></pre>
+<p><img src="graphical-residual-evaluation_files/figure-html/unnamed-chunk-2-1.png" width="60%" style="display: block; margin: auto;"></p>
+<p>Here we use <code>type="s"</code> to obtain the the scatterplot of
+the standardized residuals versus the fitted values.</p>
+</div>
+<div class="section level3">
+<h3 id="both-residual-plots">Both Residual Plots<a class="anchor" aria-label="anchor" href="#both-residual-plots"></a>
+</h3>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Load libraries</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://broom.tidymodels.org/" class="external-link">broom</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">educate</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Fit a linear model</span></span>
+<span><span class="va">lm.1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">speed</span> <span class="op">~</span> <span class="va">dist</span>, data <span class="op">=</span> <span class="va">cars</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Both residual plots</span></span>
+<span><span class="fu"><a href="../reference/residual_plots.html">residual_plots</a></span><span class="op">(</span><span class="va">lm.1</span>, type <span class="op">=</span> <span class="st">"b"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## `geom_smooth()` using formula = 'y ~ x'</span></span>
+<span><span class="co">## `geom_smooth()` using formula = 'y ~ x'</span></span></code></pre>
+<p><img src="graphical-residual-evaluation_files/figure-html/unnamed-chunk-3-1.png" width="80%" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># residual_plots(lm.1)</span></span></code></pre></div>
+<p>To obtain both plots requires that the <a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a>
+package is loaded. Here we use <code>type="b"</code> to obtain both the
+density plot of the standardized residuals, and the scatterplot of the
+standardized residuals versus the fitted values. You can also omit the
+<code>type=</code> argument, since the default is
+<code>type="b"</code>.</p>
 </div>
   </div>
 
@@ -166,7 +189,7 @@ default is <code>fill="skyblue"</code>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
