@@ -17,7 +17,7 @@ t_results = function(x){
     "\n", rep("-", 50), "\n", x$method, "\n", rep("-", 50), "\n",
     "\nH[0]: mu = ", x$null.value,
     "\nH[A]: mu ", inequality_sign, " ", x$null.value,
-    "\n\nt(", df, ") = ", x$statistic,
+    "\n\nt(", x$parameter, ") = ", x$statistic,
     "\np = ", x$p.value,
     "\n\n", rep("-", 50), "\n",
     sep = "")
