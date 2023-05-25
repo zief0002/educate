@@ -9,12 +9,13 @@
 #' @export
 #'
 #' @examples
-#' my_z = prop.test(faithful$eruptions > 3, alternative = "less")
+#' heads <- rbinom(1, size = 100, prob = .5)
+#' my_z = prop.test(heads, 100)
 #' plot_z_dist(my_z)
 #'
 plot_z_dist = function(x, shade_p_value = TRUE){
 
-  if(x$estimate < x$null.value){z_value = -1*sqrt(x$statistic[[1]])} else{z_value = -sqrt(x$statistic[[1]])}
+  if(x$estimate < x$null.value){z_value = -1*sqrt(x$statistic[[1]])} else{z_value = sqrt(x$statistic[[1]])}
   abs_z_value = abs(z_value)
   tail_limit = ceiling(abs_z_value) #Get how many SE to go in each direction
   p = if(x$p.value < .001){formatC(x$p.value, format = "e", digits = 2)} else {round(x$p.value, 3)}
