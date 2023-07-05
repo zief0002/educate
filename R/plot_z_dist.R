@@ -18,7 +18,7 @@ plot_z_dist = function(x, shade_p_value = TRUE){
   if(x$method %in% c("1-sample proportions test with continuity correction", "1-sample proportions test without continuity correction")){
     if(x$estimate < x$null.value){z_value = -1*sqrt(x$statistic[[1]])} else{z_value = sqrt(x$statistic[[1]])}
   } else{
-    if(x$estimate[[1]] < x$estimate[[2]]){z_value = -1*sqrt(x$statistic[[1]])} else{z_value = -sqrt(x$statistic[[1]])}
+    if(x$estimate[[1]] < x$estimate[[2]]){z_value = -1*sqrt(x$statistic[[1]])} else{z_value = sqrt(x$statistic[[1]])}
   }
 
   abs_z_value = abs(z_value)
