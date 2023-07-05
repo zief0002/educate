@@ -20,7 +20,8 @@ corresponding to the p-value will also be shaded.
 Plot z-Distribution and Shaded p-Value
 }
 \examples{
-my_z = prop.test(faithful$eruptions > 3, alternative = "less")
+heads <- rbinom(1, size = 100, prob = .5)
+my_z = prop.test(heads, 100)
 plot_z_dist(my_z)
 
 }
