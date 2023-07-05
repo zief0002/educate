@@ -15,7 +15,7 @@ z_results = function(x){
 
   if(x$method %in% c("1-sample proportions test with continuity correction", "1-sample proportions test without continuity correction")){
 
-    if(x$estimate < x$null.value){z_value = -1*sqrt(x$statistic[[1]])} else{z_value = -sqrt(x$statistic[[1]])}
+    if(x$estimate < x$null.value){z_value = -1*sqrt(x$statistic[[1]])} else{z_value = sqrt(x$statistic[[1]])}
 
     cat(
       "\n", rep("-", 50), "\n", x$method, "\n", rep("-", 50), "\n",
