@@ -2,6 +2,7 @@
 
 export(StatDensityConfidence)
 export(StatDensityWatercolor)
+export(ci_risk_ratio)
 export(plot_t_dist)
 export(plot_z_dist)
 export(residual_plots)
