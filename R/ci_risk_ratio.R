@@ -1,4 +1,4 @@
-#' Print t-Test Results
+#' Confidence Interval for Risk Ratio
 #'
 #' @param p1 Proportion for Sample 1
 #' @param n1 Sample size for Sample 1
