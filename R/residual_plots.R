@@ -8,6 +8,8 @@
 #'         based on the normality assumption being true is produced along with the empirical density of the residuals.
 #'         In the scatterplot of the standardized residuals versus the fitted values, a confidence envelope of reasonable values
 #'         based on the mean residual = 0 (linearity) is produced along with the loess smoother based on the empirical data.
+#' @importFrom ggplot2 geom_density geom_hline geom_point geom_segment geom_smooth ggtitle theme_light
+#' @importFrom rlang .data
 #' @export
 #'
 #' @examples
@@ -19,7 +21,7 @@ residual_plots = function(model, type = "b") {
   aug_lm = broom::augment(model)
 
   # Create residual plot (normality)
-  p1 = ggplot(data = aug_lm, aes(x = .std.resid)) +
+  p1 = ggplot(data = aug_lm, aes(x = .data$.std.resid)) +
     stat_density_confidence(model = "normal") +
     geom_density() +
     theme_light() +
@@ -27,7 +29,7 @@ residual_plots = function(model, type = "b") {
     ylab("Probability density")
 
   # Create residual plot (linearity, homoskedasticity)
-  p2 = ggplot(data = aug_lm, aes(x = .fitted, y = .std.resid)) +
+  p2 = ggplot(data = aug_lm, aes(x = .data$.fitted, y = .data$.std.resid)) +
     geom_smooth(method = "lm", linewidth = 0) +
     geom_hline(yintercept = 0, linetype = "dashed") +
     geom_point() +
@@ -42,7 +44,7 @@ residual_plots = function(model, type = "b") {
   } else if (type == "s") {
     return(p2)
   } else if (type == "b") {
-    return(p1 | p2)
+    return(patchwork::wrap_plots(p1, p2, ncol = 2))
   } else {
     message(strwrap(
       paste0(
