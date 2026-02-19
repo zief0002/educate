@@ -16,6 +16,7 @@ Printed output of the z-test results including test type, hypotheses, z-value, a
 Print z-Test Results
 }
 \examples{
+library(mosaic)
 my_z = prop_test(x = faithful$eruptions > 3, alternative = "less")
 z_results(my_z)
 

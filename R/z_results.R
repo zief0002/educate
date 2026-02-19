@@ -3,9 +3,11 @@
 #' @param x prop.test() or prop_test() object
 #'
 #' @return Printed output of the z-test results including test type, hypotheses, z-value, and p-value.
+#' @importFrom mosaic prop_test
 #' @export
 #'
 #' @examples
+#' library(mosaic)
 #' my_z = prop_test(x = faithful$eruptions > 3, alternative = "less")
 #' z_results(my_z)
 #'
