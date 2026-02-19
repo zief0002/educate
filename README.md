@@ -3,7 +3,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/zief0002/educate/actions/workflows/R-CMD-check.yaml/badge.svghttps://github.com/zief0002/educate/actions/workflows/R-CMD-check.yaml/badge.svghttps://github.com/zief0002/educate/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/zief0002/educate/actions/workflows/R-CMD-check.yaml)
+\[![R-CMD-check](https://github.com/zief0002/educate/actions/workflows/R-CMD-check.yaml/badge.svg)
 <!-- badges: end -->
 
 # educate
