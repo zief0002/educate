@@ -12,20 +12,29 @@
 #' @return A ggplot object giving the density plot
 #' @export
 
-sm_density = function(data, x, k = 1000, boot_envelope = TRUE, model = "none",
-                      rug_color = "black", envelope_fill = "skyblue", ...){
-
-  var  = eval(substitute(x), data) # Get variable
-  var2 = substitute(.$x)           # Get variable for density()
+sm_density = function(
+  data,
+  x,
+  k = 1000,
+  boot_envelope = TRUE,
+  model = "none",
+  rug_color = "black",
+  envelope_fill = "skyblue",
+  ...
+) {
+  var = eval(substitute(x), data) # Get variable
+  var2 = substitute(.$x) # Get variable for density()
 
   # Tests
-  if(!is.numeric(var)) return("x is non-numeric") # Check that input is numeric
-  if(length(var) == 0) return("x has no data")
+  if (!is.numeric(var)) {
+    return("x is non-numeric")
+  } # Check that input is numeric
+  if (length(var) == 0) {
+    return("x has no data")
+  }
 
-  if(model == "none"){
-
-    if(boot_envelope){
-
+  if (model == "none") {
+    if (boot_envelope) {
       range = max(var, na.rm = TRUE) - min(var, na.rm = TRUE)
       lower_bound = min(var, na.rm = TRUE) - 0.2 * range
       upper_bound = max(var, na.rm = TRUE) + 0.2 * range
@@ -38,7 +47,13 @@ sm_density = function(data, x, k = 1000, boot_envelope = TRUE, model = "none",
         ) %>%
         tidyr::unnest() %>%
         dplyr::group_by(bs) %>%
-        dplyr::do(broom::tidy(density(eval(var2), from = lower_bound, to = upper_bound, n = 128, na.rm = TRUE))) %>%
+        dplyr::do(broom::tidy(density(
+          eval(var2),
+          from = lower_bound,
+          to = upper_bound,
+          n = 128,
+          na.rm = TRUE
+        ))) %>%
         dplyr::ungroup()
 
       names(densities_within)[2] = "X"
@@ -53,27 +68,46 @@ sm_density = function(data, x, k = 1000, boot_envelope = TRUE, model = "none",
         )
 
       p = ggplot2::ggplot(data = densities_qtiles, ggplot2::aes(x = X)) +
-        ggplot2::geom_ribbon(ggplot2::aes(ymin = q05, ymax = q95), alpha = 0.5, fill = envelope_fill) +
-        ggplot2::stat_density(data = data, ggplot2::aes(x = var), geom = "line") +
-        ggplot2::geom_point(data = data, ggplot2::aes(x = var), y = 0, shape = "|", size = 2, color = rug_color) +
+        ggplot2::geom_ribbon(
+          ggplot2::aes(ymin = q05, ymax = q95),
+          alpha = 0.5,
+          fill = envelope_fill
+        ) +
+        ggplot2::stat_density(
+          data = data,
+          ggplot2::aes(x = var),
+          geom = "line"
+        ) +
+        ggplot2::geom_point(
+          data = data,
+          ggplot2::aes(x = var),
+          y = 0,
+          shape = "|",
+          size = 2,
+          color = rug_color
+        ) +
         ggplot2::xlab(deparse(substitute(x))) +
         ggplot2::ylab("Probability density") +
         ggplot2::theme_classic()
-
-      } else{
-
-        # Create plot
-        p = ggplot2::ggplot(data = data, ggplot2::aes(x = var)) +
-          ggplot2::stat_density(geom = "line") +
-          ggplot2::geom_point(data = data, ggplot2::aes(x = var), y = 0, shape = "|", size = 2, color = rug_color) +
-          ggplot2::xlab(deparse(substitute(x))) +
-          ggplot2::ylab("Probability density") +
-          ggplot2::theme_classic()
-      }
+    } else {
+      # Create plot
+      p = ggplot2::ggplot(data = data, ggplot2::aes(x = var)) +
+        ggplot2::stat_density(geom = "line") +
+        ggplot2::geom_point(
+          data = data,
+          ggplot2::aes(x = var),
+          y = 0,
+          shape = "|",
+          size = 2,
+          color = rug_color
+        ) +
+        ggplot2::xlab(deparse(substitute(x))) +
+        ggplot2::ylab("Probability density") +
+        ggplot2::theme_classic()
+    }
   }
 
-  if(model == "normal") {
-
+  if (model == "normal") {
     # Get parameter estimates
     mu_hat = MASS::fitdistr(na.omit(var), "normal")$estimate[[1]]
     sigma_hat = MASS::fitdistr(na.omit(var), "normal")$estimate[[2]]
@@ -89,7 +123,13 @@ sm_density = function(data, x, k = 1000, boot_envelope = TRUE, model = "none",
       ) %>%
       tidyr::unnest(cols = c(data)) %>%
       dplyr::group_by(bs) %>%
-      dplyr::do(broom::tidy(density(.$data, from = lower_bound, to = upper_bound, n = 128, na.rm = TRUE))) %>%
+      dplyr::do(broom::tidy(density(
+        .$data,
+        from = lower_bound,
+        to = upper_bound,
+        n = 128,
+        na.rm = TRUE
+      ))) %>%
       dplyr::ungroup()
 
     names(densities_within)[2] = "X"
@@ -105,16 +145,26 @@ sm_density = function(data, x, k = 1000, boot_envelope = TRUE, model = "none",
 
     # Create plot
     p = ggplot2::ggplot(data = densities_qtiles, ggplot2::aes(x = X)) +
-      ggplot2::geom_ribbon(ggplot2::aes(ymin = q05, ymax = q95), alpha = 0.5, fill = envelope_fill) +
+      ggplot2::geom_ribbon(
+        ggplot2::aes(ymin = q05, ymax = q95),
+        alpha = 0.5,
+        fill = envelope_fill
+      ) +
       ggplot2::stat_density(data = data, ggplot2::aes(x = var), geom = "line") +
-      ggplot2::geom_point(data = data, ggplot2::aes(x = var), y = 0, shape = "|", size = 2, color = rug_color) +
+      ggplot2::geom_point(
+        data = data,
+        ggplot2::aes(x = var),
+        y = 0,
+        shape = "|",
+        size = 2,
+        color = rug_color
+      ) +
       ggplot2::xlab(deparse(substitute(x))) +
       ggplot2::ylab("Probability density") +
       ggplot2::theme_classic()
   }
 
   print(p)
-
 }
 
 # sm_density(keith, homework) + theme_bw() + xlab("Time spent on homework")
@@ -125,9 +175,4 @@ sm_density = function(data, x, k = 1000, boot_envelope = TRUE, model = "none",
 # sm_density(keith, homework, model = "normal") + theme_bw()
 # sm_density(city, income, model = "normal", envelope_fill = "skyblue", rug_color = "red")
 
-
-
-
 ##########################################
-
-

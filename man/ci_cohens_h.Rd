@@ -9,7 +9,9 @@ ci_cohens_h(p1, p2, n1, n2, conf.level = 0.95)
 \arguments{
 \item{p1}{Proportion for Sample 1}
 
-\item{n1}{Proportion for Sample 2}
+\item{p2}{Proportion for Sample 2}
+
+\item{n1}{Sample size for Sample 1}
 
 \item{n2}{Sample size for Sample 2}
 
