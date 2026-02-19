@@ -12,15 +12,20 @@
 #' my_t = t.test(cars$speed, mu = 16, alternative = "less")
 #' plot_t_dist(my_t)
 #'
-plot_t_dist = function(x, shade_p_value = TRUE){
-
+plot_t_dist = function(x, shade_p_value = TRUE) {
   df = x$parameter[[1]] #Get df
   abs_t_value = abs(x$statistic[[1]])
   tail_limit = ceiling(abs_t_value) #Get how many SE to go in each direction
-  p = if(x$p.value < .001){formatC(x$p.value, format = "e", digits = 2)} else {round(x$p.value, 3)}
+  p = if (x$p.value < .001) {
+    formatC(x$p.value, format = "e", digits = 2)
+  } else {
+    round(x$p.value, 3)
+  }
 
   # Reset tail limits to get better t-distribution if |t| < 5
-  if(tail_limit < 5){tail_limit = 5}
+  if (tail_limit < 5) {
+    tail_limit = 5
+  }
 
   # Initial plot
   p1 = ggplot(data = data.frame(x = c(-tail_limit, tail_limit)), aes(x = x)) +
@@ -34,12 +39,10 @@ plot_t_dist = function(x, shade_p_value = TRUE){
     ylab("Density") +
     ggtitle(paste0("t(", df, ") = ", round(x$statistic, 2), ", p = ", p))
 
-  if(shade_p_value){
-
+  if (shade_p_value) {
     # Different shading/vertical lines depending on alternative hyp.
 
-    if(x$alternative == "less"){
-
+    if (x$alternative == "less") {
       # Shade to the left
       p1 = p1 +
         stat_function(
@@ -57,10 +60,14 @@ plot_t_dist = function(x, shade_p_value = TRUE){
           fill = "#ff2d21",
           alpha = 0.3
         ) +
-        geom_segment(x = x$statistic, xend = x$statistic, y = 0, yend = dt(0, df = df), color = "#ff2d21")
-
-    } else if(x$alternative == "greater"){
-
+        geom_segment(
+          x = x$statistic,
+          xend = x$statistic,
+          y = 0,
+          yend = dt(0, df = df),
+          color = "#ff2d21"
+        )
+    } else if (x$alternative == "greater") {
       # Shade to the right
       p1 = p1 +
         stat_function(
@@ -78,10 +85,14 @@ plot_t_dist = function(x, shade_p_value = TRUE){
           fill = "#ff2d21",
           alpha = 0.3
         ) +
-        geom_segment(x = x$statistic, xend = x$statistic, y = 0, yend = dt(0, df = df), color = "#ff2d21")
-
+        geom_segment(
+          x = x$statistic,
+          xend = x$statistic,
+          y = 0,
+          yend = dt(0, df = df),
+          color = "#ff2d21"
+        )
     } else {
-
       # Shade to the left and right
       p1 = p1 +
         stat_function(
@@ -114,13 +125,22 @@ plot_t_dist = function(x, shade_p_value = TRUE){
           fill = "#ff2d21",
           alpha = 0.3
         ) +
-        geom_segment(x = -abs_t_value, xend = -abs_t_value, y = 0, yend = dt(0, df = df), color = "#ff2d21") +
-        geom_segment(x = abs_t_value, xend = abs_t_value, y = 0, yend = dt(0, df = df), color = "#ff2d21")
-
+        geom_segment(
+          x = -abs_t_value,
+          xend = -abs_t_value,
+          y = 0,
+          yend = dt(0, df = df),
+          color = "#ff2d21"
+        ) +
+        geom_segment(
+          x = abs_t_value,
+          xend = abs_t_value,
+          y = 0,
+          yend = dt(0, df = df),
+          color = "#ff2d21"
+        )
     }
   }
-
-
 
   return(p1)
 }

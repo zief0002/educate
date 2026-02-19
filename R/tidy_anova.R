@@ -11,12 +11,12 @@
 #' tidy_anova(lm.1, model = TRUE)
 #'
 #' @importFrom stats anova pf
-tidy_anova = function(x, model = FALSE){
+tidy_anova = function(x, model = FALSE) {
   co <- stats::coef(x)
   av = anova(x)
 
   # Model partitioning
-  if(model == TRUE){
+  if (model == TRUE) {
     k = length(av$Df)
 
     # Set up columns for source, df, and sums of squares
@@ -32,33 +32,25 @@ tidy_anova = function(x, model = FALSE){
 
     # Compute F- and p-value
     f.value = ret$MS[1] / ret$MS[2]
-    p.value = 1- pf(f.value, df1 = ret$df[1], df2 = ret$df[2])
+    p.value = 1 - pf(f.value, df1 = ret$df[1], df2 = ret$df[2])
 
     # Add column for F-statistic
     ret$F = c(f.value, NA)
 
     # Add column for p-value
     ret$p = c(p.value, NA)
-
-  } else{
-
-  # Term-level partitioning
-  ret <- data.frame(
-    Source = c(names(co)[-1], "Residuals"),
-    df = av$Df,
-    SS = av$'Sum Sq',
-    MS = av$'Mean Sq',
-    F = av$'F value',
-    p = av$'Pr(>F)',
-    stringsAsFactors = FALSE
+  } else {
+    # Term-level partitioning
+    ret <- data.frame(
+      Source = c(names(co)[-1], "Residuals"),
+      df = av$Df,
+      SS = av$'Sum Sq',
+      MS = av$'Mean Sq',
+      F = av$'F value',
+      p = av$'Pr(>F)',
+      stringsAsFactors = FALSE
     )
-
   }
 
   return(ret)
-
 }
-
-
-
-

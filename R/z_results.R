@@ -9,35 +9,77 @@
 #' my_z = prop.test(faithful$eruptions > 3, alternative = "less")
 #' z_results(my_z)
 #'
-z_results = function(x){
+z_results = function(x) {
+  inequality_sign = switch(
+    x$alternative,
+    "less" = "<",
+    "greater" = ">",
+    "two.sided" = "≠"
+  )
 
-  inequality_sign = switch(x$alternative, "less"="<", "greater"=">", "two.sided"="≠")
-
-  if(x$method %in% c("1-sample proportions test with continuity correction", "1-sample proportions test without continuity correction")){
-
-    if(x$estimate < x$null.value){z_value = -1*sqrt(x$statistic[[1]])} else{z_value = sqrt(x$statistic[[1]])}
+  if (
+    x$method %in%
+      c(
+        "1-sample proportions test with continuity correction",
+        "1-sample proportions test without continuity correction"
+      )
+  ) {
+    if (x$estimate < x$null.value) {
+      z_value = -1 * sqrt(x$statistic[[1]])
+    } else {
+      z_value = sqrt(x$statistic[[1]])
+    }
 
     cat(
-      "\n", rep("-", 50), "\n", x$method, "\n", rep("-", 50), "\n",
-      "\nH[0]: pi = ", x$null.value,
-      "\nH[A]: pi ", inequality_sign, " ", x$null.value,
-      "\nz = ", z_value,
-      "\np = ", x$p.value,
-      "\n\n", rep("-", 50), "\n",
-      sep = "")
+      "\n",
+      rep("-", 50),
+      "\n",
+      x$method,
+      "\n",
+      rep("-", 50),
+      "\n",
+      "\nH[0]: pi = ",
+      x$null.value,
+      "\nH[A]: pi ",
+      inequality_sign,
+      " ",
+      x$null.value,
+      "\nz = ",
+      z_value,
+      "\np = ",
+      x$p.value,
+      "\n\n",
+      rep("-", 50),
+      "\n",
+      sep = ""
+    )
   } else {
-
-    if(x$estimate[[1]] < x$estimate[[2]]){z_value = -1*sqrt(x$statistic[[1]])} else{z_value = -sqrt(x$statistic[[1]])}
+    if (x$estimate[[1]] < x$estimate[[2]]) {
+      z_value = -1 * sqrt(x$statistic[[1]])
+    } else {
+      z_value = -sqrt(x$statistic[[1]])
+    }
 
     cat(
-      "\n", rep("-", 50), "\n", x$method, "\n", rep("-", 50), "\n",
+      "\n",
+      rep("-", 50),
+      "\n",
+      x$method,
+      "\n",
+      rep("-", 50),
+      "\n",
       "\nH[0]: pi_1 = pi_2",
-      "\nH[A]: pi_1 ", inequality_sign, " p1_2",
-      "\nz = ", z_value,
-      "\np = ", x$p.value,
-      "\n\n", rep("-", 50), "\n",
-      sep = "")
-
+      "\nH[A]: pi_1 ",
+      inequality_sign,
+      " p1_2",
+      "\nz = ",
+      z_value,
+      "\np = ",
+      x$p.value,
+      "\n\n",
+      rep("-", 50),
+      "\n",
+      sep = ""
+    )
   }
-
 }
