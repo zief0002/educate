@@ -16,7 +16,7 @@ Printed output of the z-test results including test type, hypotheses, z-value, a
 Print z-Test Results
 }
 \examples{
-my_z = prop.test(faithful$eruptions > 3, alternative = "less")
+my_z = prop_test(x = faithful$eruptions > 3, alternative = "less")
 z_results(my_z)
 
 }

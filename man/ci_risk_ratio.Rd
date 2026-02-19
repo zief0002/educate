@@ -9,7 +9,9 @@ ci_risk_ratio(p1, n1, p2, n2, conf.level = 0.95)
 \arguments{
 \item{p1}{Proportion for Sample 1}
 
-\item{n1}{Proportion for Sample 2}
+\item{n1}{Sample size for Sample 1}
+
+\item{p2}{Proportion for Sample 2}
 
 \item{n2}{Sample size for Sample 2}
 
