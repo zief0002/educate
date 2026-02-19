@@ -6,6 +6,7 @@
 #'
 #' @return Plot of the t-distribution. If shade_p_value=TRUE, the area under the curve
 #' corresponding to the p-value will also be shaded.
+#' @importFrom ggplot2 ggplot aes stat_function theme_bw xlab ylab stat_function ggtitle geom_segment
 #' @export
 #'
 #' @examples
