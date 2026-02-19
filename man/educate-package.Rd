@@ -10,8 +10,16 @@
 
 These are miscellaneous functions for carrying out statistical work in education.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/zief0002/educate}
+  \item Report bugs at \url{https://github.com/zief0002/educate/issues}
+}
+
+}
 \author{
-\strong{Maintainer}: Andrew Zieffler \email{zief0002@umn.edu} (\href{https://orcid.org/0000-0002-1035-0341}{ORCID})
+\strong{Maintainer}: Andrew Zieffler \email{zief0002@umn.edu} (\href{https://orcid.org/0000-0002-1035-0341}{ORCID}) [copyright holder]
 
 }
 \keyword{internal}

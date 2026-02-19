@@ -20,7 +20,7 @@ Suggests:
   rmarkdown,
   dplyr
 Roxygen: list(markdown = TRUE)	
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 VignetteBuilder: knitr
 URL: https://github.com/zief0002/educate
 BugReports: https://github.com/zief0002/educate/issues
