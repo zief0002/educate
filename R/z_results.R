@@ -6,7 +6,7 @@
 #' @export
 #'
 #' @examples
-#' my_z = prop.test(faithful$eruptions > 3, alternative = "less")
+#' my_z = prop_test(x = faithful$eruptions > 3, alternative = "less")
 #' z_results(my_z)
 #'
 z_results = function(x) {
@@ -14,7 +14,7 @@ z_results = function(x) {
     x$alternative,
     "less" = "<",
     "greater" = ">",
-    "two.sided" = "≠"
+    "two.sided" = "\u2260"
   )
 
   if (

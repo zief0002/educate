@@ -14,7 +14,7 @@ t_results = function(x) {
     x$alternative,
     "less" = "<",
     "greater" = ">",
-    "two.sided" = "≠"
+    "two.sided" = "\u2260"
   )
 
   if (x$method == "One Sample t-test") {
