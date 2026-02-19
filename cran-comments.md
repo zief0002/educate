@@ -12,3 +12,4 @@
 * GitHub Actions (windows): release
 * Github Actions (macOS): release
 * r-hub
+* winbuilder
