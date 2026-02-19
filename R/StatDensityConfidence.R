@@ -7,9 +7,7 @@
 #' @param fill Fill color for the confidence envelope. The default is `fill="skyblue"`
 #' @param model The model to draw the confidence envelope for. The default is `model="none"` which creates the
 #'     confidence envelope from the data. Using `model="normal"` creates the confidence envelope based on a normal distribution.
-#'
-#' @export
-
+#' @noRd
 StatDensityConfidence <- ggplot2::ggproto(
   "StatDensityConfidence",
   ggplot2::Stat,
@@ -29,7 +27,6 @@ StatDensityConfidence <- ggplot2::ggproto(
     h = NULL,
     na.rm = TRUE,
     fill = "skyblue",
-    fade = FALSE,
     model = "none",
     ...
   ) {

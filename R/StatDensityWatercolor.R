@@ -10,10 +10,7 @@
 #'    need to be adjusted if the argument `k=` is changed. The default value is `alpha=0.03`.
 #' @param model The model to bootstrap from. The default is `model="none"` which bootstraps from the data.
 #'     Using `model="normal"` draws repeated samples from a normal distribution with parameters based on the data.
-#'
-#' @usage NULL
-#'
-#' @export
+#' @noRd
 StatDensityWatercolor <- ggplot2::ggproto(
   "StatDensityWatercolor",
   ggplot2::Stat,

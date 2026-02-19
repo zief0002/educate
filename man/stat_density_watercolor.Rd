@@ -4,13 +4,17 @@
 \alias{stat_density_watercolor}
 \title{Bootstrapped Confidence Envelope for Density}
 \arguments{
-\item{k}{Number of bootstrapped smoothers. The default is 1000.}
+\item{data}{The data to be displayed in this layer.}
 
-\item{alpha}{Transparency level for the paths that make up the bootstrapped fitted lines. This may
-need to be adjusted if the argument \verb{k=} is changed. The default value is \code{alpha=0.03}.}
+\item{mapping}{Default list of aesthetic mappings to use for plot.}
+
+\item{k}{Number of bootstrapped smoothers. The default is 1000.}
 
 \item{color}{Color for the bootstrapped densities that make up the confidence envelope. The
 default is \code{color="#1D91C0"}}
+
+\item{alpha}{Transparency level for the paths that make up the bootstrapped fitted lines. This may
+need to be adjusted if the argument \verb{k=} is changed. The default value is \code{alpha=0.03}.}
 
 \item{model}{The model to bootstrap from. The default is \code{model="none"} which bootstraps from the data.
 Using \code{model="normal"} draws repeated samples from a normal distribution with parameters based on the data.}

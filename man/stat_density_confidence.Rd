@@ -3,22 +3,11 @@
 \name{stat_density_confidence}
 \alias{stat_density_confidence}
 \title{Normal Theory Based Confidence Envelope for Density}
-\usage{
-stat_density_confidence(
-  mapping = NULL,
-  data = NULL,
-  geom = "ribbon",
-  position = "identity",
-  na.rm = TRUE,
-  inherit.aes = TRUE,
-  h = NULL,
-  fill = "skyblue",
-  fade = FALSE,
-  model = "none",
-  ...
-)
-}
 \arguments{
+\item{mapping}{Default list of aesthetic mappings to use for plot.}
+
+\item{data}{The data to be displayed in this layer.}
+
 \item{h}{A normal kernel function is used and \code{h} is its standard deviation. If this parameter is
 omitted, a normal optimal smoothing parameter is used.}
 
@@ -26,6 +15,8 @@ omitted, a normal optimal smoothing parameter is used.}
 
 \item{model}{The model to draw the confidence envelope for. The default is \code{model="none"} which creates the
 confidence envelope from the data. Using \code{model="normal"} creates the confidence envelope based on a normal distribution.}
+
+\item{...}{Other arguments passed to \code{\link[ggplot2:layer]{ggplot2::layer()}}.}
 }
 \description{
 This function creates a normal theory based confidence envelope for the empirical density. The idea came from
@@ -37,3 +28,8 @@ These stat uses  \code{geom_ribbon()} so support the same aesthetics: \code{alph
 \code{linetype}, \code{group}, and \code{size}.
 }
 
+\examples{
+ggplot(mtcars, aes(x = mpg)) +
+  stat_density_confidence(model = "normal") +
+  geom_density()
+}
