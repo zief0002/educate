@@ -1,3 +1,5 @@
+# educate 0.4.0
+
 # educate 0.3.0.1 (2023, January)
 
 * Added `residual_plots()` function.
