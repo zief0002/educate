@@ -6,18 +6,19 @@ Description: These are miscellaneous functions for carrying out statistical work
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 Imports:
-    broom,
-    crayon,
-    mosaic,
-    patchwork,
-    stats
+  broom,
+  crayon,
+  mosaic,
+  patchwork,
+  rlang,
+  stats
 Depends: 
   R (>= 3.5),
   ggplot2
 Suggests: 
-    knitr,
-    rmarkdown,
-    dplyr
+  knitr,
+  rmarkdown,
+  dplyr
 Roxygen: list(markdown = TRUE)	
 RoxygenNote: 7.3.2
 VignetteBuilder: knitr
