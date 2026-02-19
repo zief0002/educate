@@ -13,7 +13,11 @@ Miscellaneous R functions for educational statistics
 ## Installation
 
 ``` r
-devtools::install_github("zief0002/educate")
+# The easiest way to install educate is to instll from CRAN.
+install.packages("educate")
+
+# ALternatively you can install from github.
+pak::pak("zief0002/educate")
 ```
 
 ## Documentation
